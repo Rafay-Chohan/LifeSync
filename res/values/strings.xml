@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LifeSync</string>
+    <string name="_2nd_page">2nd Page</string>
+    <string name="task_manager">Task Manager</string>
+    <string name="budget_tracker">Budget Tracker</string>
+    <string name="journal">Journal</string>
+    <string name="main_page">Main Page</string>
 </resources>
