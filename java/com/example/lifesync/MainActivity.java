@@ -22,12 +22,24 @@ public class MainActivity extends AppCompatActivity {
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
 
-            if (item.getItemId()==R.id.btItem){
+            /*if (item.getItemId()==R.id.btItem){
                 replaceFragment(new BudgetTrackerFragment());
             } else if (item.getItemId()==R.id.tmItem) {
                 replaceFragment(new TaskManagerFragment());
             }else if (item.getItemId()==R.id.jItem) {
                 replaceFragment(new JournalFragment());
+            }*/
+            //Possibe issues with Switch statement using non constant ID, will use if/else if required
+            switch (item.getItemId()){
+                case R.id.tmItem:
+                    replaceFragment(new TaskManagerFragment());
+                    break;
+                case R.id.btItem:
+                    replaceFragment(new BudgetTrackerFragment());
+                    break;
+                case R.id.jItem:
+                    replaceFragment(new JournalFragment());
+                    break;
             }
             return true;
         });
