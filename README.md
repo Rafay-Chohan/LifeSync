@@ -22,11 +22,12 @@ List Features:
 8. Personalized Space locked behind locks(Account)
 
 Changes for Gradle script:
-add this line in build.gradle.kts(module:app)
-buildFeatures {
-        viewBinding = true
-    }
+
+add this line in build.gradle.kts(module:app):-
+buildFeatures 
+{
+viewBinding = true
+}
     
-add this in gradle.properties
-android.nonFinalResIds=false
+add this in gradle.properties:- android.nonFinalResIds=false
 
