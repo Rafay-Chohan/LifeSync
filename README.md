@@ -21,9 +21,12 @@ List Features:
 7. Attach photos or media
 8. Personalized Space locked behind locks(Account)
 
-Note:
+Changes for Gradle script:
 add this line in build.gradle.kts(module:app)
 buildFeatures {
         viewBinding = true
     }
+    
+add this in gradle.properties
+android.nonFinalResIds=false
 
