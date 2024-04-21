@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/Teal"
     tools:context=".TaskManagerFragment">
 
@@ -12,6 +13,25 @@
         android:layout_height="wrap_content"
         android:text="@string/task_manager"
         android:textSize="26dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_margin="20dp"/>
 
-</FrameLayout>
+    <ListView
+        android:id="@+id/listViewTasks"
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:divider="@android:color/black"
+        android:dividerHeight="5dp"
+        android:background="@color/white"
+        android:layout_margin="20dp" />
+    <Button
+        android:id="@+id/btnAddTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/btn_add_task"
+        android:layout_margin="20dp"/>
+
+
+
+</LinearLayout>
