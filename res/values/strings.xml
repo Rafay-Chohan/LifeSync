@@ -11,8 +11,8 @@
     <string name="btn_add_expense">Add Expense</string>
     <string name="btn_add_journal">+</string>
     <string name="name">Name</string>
-    <string name="deadline_date">Deadline Date</string>
-    <string name="deadline_time">Deadline Time</string>
+    <string name="deadline_date">Deadline Date (YYYY-MM-DD)</string>
+    <string name="deadline_time">Deadline Time (16:00:00)</string>
     <string name="priority">Priority (1(Low)-5(High)</string>
     <string name="duration">Duration(hours)</string>
 </resources>

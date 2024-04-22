@@ -44,8 +44,8 @@ MainActivity mainActivity;
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getActivity(), addTask.class);
-                startActivity(i);
+                Intent intent = new Intent(getActivity(), addTask.class);
+                startActivity(intent);
             }
         });
 
