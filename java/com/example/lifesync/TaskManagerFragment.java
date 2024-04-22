@@ -1,5 +1,6 @@
 package com.example.lifesync;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
+import android.widget.Button;
+
 public class TaskManagerFragment extends Fragment {
+
+MainActivity mainActivity;
 
     public TaskManagerFragment() {
         // Required empty public constructor
@@ -33,6 +38,16 @@ public class TaskManagerFragment extends Fragment {
                 android.R.layout.simple_list_item_1, tasks);
 
         listViewTasks.setAdapter(adapter);
+
+        Button b1 = view.findViewById(R.id.btnAddTask);
+        mainActivity = (MainActivity)getActivity();
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity(), addTask.class);
+                startActivity(i);
+            }
+        });
 
         return view;
     }
