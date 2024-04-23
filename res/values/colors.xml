@@ -3,4 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="Teal">#008080</color>
+    <color name="Maroon">#983628</color>
+    <color name="DesertSand">#ECC8AE</color>
+    <color name="coralPink">#D7907B</color>
+    <color name="yellow">#F6F740</color>
+    <color name="cyan">#00A5CF</color>
 </resources>

@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,9 @@ import android.widget.Button;
 public class TaskManagerFragment extends Fragment {
 
 MainActivity mainActivity;
-
+RecyclerView taskRV;
+TaskListAdapter taskListAdapter;
+ArrayList<com.example.lifesync.TaskModel>   taskList=new ArrayList<>();
     public TaskManagerFragment() {
         // Required empty public constructor
     }
@@ -23,21 +28,16 @@ MainActivity mainActivity;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_manager, container, false);
-        ListView listViewTasks = view.findViewById(R.id.listViewTasks);
+        mainActivity = (MainActivity)getActivity();
 
-        // Dummy task data
-        ArrayList<String> tasks = new ArrayList<>();
-        tasks.add("Task 1");
-        tasks.add("Task 2");
-        tasks.add("Task 3");
-        tasks.add("Task 4");
-        tasks.add("Task 5");
-        tasks.add("Task 6");
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
-                android.R.layout.simple_list_item_1, tasks);
-
-        listViewTasks.setAdapter(adapter);
+        taskRV=view.findViewById(R.id.taskListRV);
+        taskList.add(new com.example.lifesync.TaskModel("1","Demo Task1","Pending","3","2024-4-26 16:00:00","2 hours"));
+        taskList.add(new com.example.lifesync.TaskModel("2","Demo Task2","Completed","3","2024-4-24 16:00:00","2 hours"));
+        taskList.add(new com.example.lifesync.TaskModel("3","Demo Task3","Pending","3","2024-4-25 16:00:00","2 hours"));
+        taskListAdapter=new TaskListAdapter(taskList);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        taskRV.setLayoutManager(layoutManager);
+        taskRV.setAdapter(taskListAdapter);
 
         Button b1 = view.findViewById(R.id.btnAddTask);
         mainActivity = (MainActivity)getActivity();

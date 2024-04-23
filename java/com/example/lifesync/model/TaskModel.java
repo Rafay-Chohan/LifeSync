@@ -1,9 +1,9 @@
 package com.example.lifesync;
 
-public class Task {
+public class TaskModel {
     String taskId,taskName,taskStatus,taskPriority,taskDeadline,taskDuration;
 
-    public Task(String taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration) {
+    public TaskModel(String taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
