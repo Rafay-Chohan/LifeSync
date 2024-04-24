@@ -21,13 +21,35 @@ List Features:
 7. Attach photos or media
 8. Personalized Space locked behind locks(Account)
 
+
+
 Changes for Gradle script:
+add google-services.json file for DB connection
 
 add this line in build.gradle.kts(module:app):-
 buildFeatures 
 {
 viewBinding = true
 }
+
+add this line in build.gradle.kts(module:app) Dependencies:-
+implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
+implementation("com.google.firebase:firebase-analytics")
+implementation("com.google.firebase:firebase-auth")
+implementation("com.google.firebase:firebase-firestore:24.11.1")
+implementation("com.google.firebase:firebase-firestore")
     
 add this in gradle.properties:- android.nonFinalResIds=false
+
+add in Gradle>build.gradle.kts
+buildscript {
+dependencies {
+classpath("com.google.gms:google-services:4.4.1")
+}
+}
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+id("com.android.application") version "8.2.2" apply false
+id("com.google.gms.google-services") version "4.4.1" apply false
+}
 

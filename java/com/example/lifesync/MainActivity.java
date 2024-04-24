@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             }else if (item.getItemId()==R.id.jItem) {
                 replaceFragment(new JournalFragment());
             }*/
-            //Possibe issues with Switch statement using non constant ID, will use if/else if required
+            //Possible issues with Switch statement using non constant ID, will use if/else if required
             switch (item.getItemId()){
                 case R.id.tmItem:
                     replaceFragment(new TaskManagerFragment());

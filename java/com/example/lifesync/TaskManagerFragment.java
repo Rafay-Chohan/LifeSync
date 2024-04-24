@@ -17,10 +17,10 @@ import android.widget.Button;
 
 public class TaskManagerFragment extends Fragment {
 
-MainActivity mainActivity;
-RecyclerView taskRV;
-TaskListAdapter taskListAdapter;
-ArrayList<com.example.lifesync.TaskModel>   taskList=new ArrayList<>();
+    MainActivity mainActivity;
+    RecyclerView taskRV;
+    TaskListAdapter taskListAdapter;
+    ArrayList<com.example.lifesync.TaskModel> taskList = new ArrayList<>();
     public TaskManagerFragment() {
         // Required empty public constructor
     }
@@ -30,10 +30,10 @@ ArrayList<com.example.lifesync.TaskModel>   taskList=new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_task_manager, container, false);
         mainActivity = (MainActivity)getActivity();
 
-        taskRV=view.findViewById(R.id.taskListRV);
-        taskList.add(new com.example.lifesync.TaskModel("1","Demo Task1","Pending","3","2024-4-26 16:00:00","2 hours"));
-        taskList.add(new com.example.lifesync.TaskModel("2","Demo Task2","Completed","3","2024-4-24 16:00:00","2 hours"));
-        taskList.add(new com.example.lifesync.TaskModel("3","Demo Task3","Pending","3","2024-4-25 16:00:00","2 hours"));
+        taskRV = view.findViewById(R.id.taskListRV);
+        taskList.add(new com.example.lifesync.TaskModel(1,"Demo Task1","Pending","3","2024-4-26 16:00:00","2 hours"));
+        taskList.add(new com.example.lifesync.TaskModel(2,"Demo Task2","Completed","3","2024-4-24 16:00:00","2 hours"));
+        taskList.add(new com.example.lifesync.TaskModel(3,"Demo Task3","Pending","3","2024-4-25 16:00:00","2 hours"));
         taskListAdapter=new TaskListAdapter(taskList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         taskRV.setLayoutManager(layoutManager);

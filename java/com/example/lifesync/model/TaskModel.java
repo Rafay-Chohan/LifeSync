@@ -1,9 +1,10 @@
 package com.example.lifesync;
 
 public class TaskModel {
-    String taskId,taskName,taskStatus,taskPriority,taskDeadline,taskDuration;
+    String taskName,taskStatus,taskPriority,taskDeadline,taskDuration;
+    int taskId;
 
-    public TaskModel(String taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration) {
+    public TaskModel(int taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
@@ -12,11 +13,11 @@ public class TaskModel {
         this.taskDuration = taskDuration;
     }
 
-    public String getTaskId() {
+    public int getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(String taskId) {
+    public void setTaskId(int taskId) {
         this.taskId = taskId;
     }
 
