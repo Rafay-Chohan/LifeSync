@@ -3,10 +3,12 @@ package com.example.lifesync;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,26 +17,31 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 public class TaskManagerFragment extends Fragment {
 
     MainActivity mainActivity;
     RecyclerView taskRV;
     TaskListAdapter taskListAdapter;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String TAG = "Task Manager Query";
     ArrayList<com.example.lifesync.TaskModel> taskList = new ArrayList<>();
     public TaskManagerFragment() {
         // Required empty public constructor
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task_manager, container, false);
         mainActivity = (MainActivity)getActivity();
 
         taskRV = view.findViewById(R.id.taskListRV);
-        taskList.add(new com.example.lifesync.TaskModel(1,"Demo Task1","Pending","3","2024-4-26 16:00:00","2 hours"));
-        taskList.add(new com.example.lifesync.TaskModel(2,"Demo Task2","Completed","3","2024-4-24 16:00:00","2 hours"));
-        taskList.add(new com.example.lifesync.TaskModel(3,"Demo Task3","Pending","3","2024-4-25 16:00:00","2 hours"));
-        taskListAdapter=new TaskListAdapter(taskList);
+        taskListAdapter = new TaskListAdapter(taskList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         taskRV.setLayoutManager(layoutManager);
         taskRV.setAdapter(taskListAdapter);
@@ -48,6 +55,23 @@ public class TaskManagerFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        db.collection("Tasks")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                com.example.lifesync.TaskModel taskModel=document.toObject(com.example.lifesync.TaskModel.class);
+                                taskList.add(taskModel);
+                            }
+                            taskListAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
         return view;
     }
