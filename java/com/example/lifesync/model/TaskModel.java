@@ -4,6 +4,9 @@ public class TaskModel {
     String taskName,taskStatus,taskPriority,taskDeadline,taskDuration;
     int taskId;
 
+    public TaskModel(){
+
+    }
     public TaskModel(int taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration) {
         this.taskId = taskId;
         this.taskName = taskName;
