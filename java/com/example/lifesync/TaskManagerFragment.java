@@ -19,6 +19,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -56,6 +57,7 @@ public class TaskManagerFragment extends Fragment {
             }
         });
         db.collection("Tasks")
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -64,6 +66,7 @@ public class TaskManagerFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 com.example.lifesync.TaskModel taskModel=document.toObject(com.example.lifesync.TaskModel.class);
+                                taskModel.setTaskId(document.getId());
                                 taskList.add(taskModel);
                             }
                             taskListAdapter.notifyDataSetChanged();

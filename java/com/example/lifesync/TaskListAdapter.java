@@ -1,11 +1,18 @@
 package com.example.lifesync;
 import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -13,13 +20,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
     private ArrayList<com.example.lifesync.TaskModel> taskDataSet;
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder)
-     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView taskName,taskStatus,taskDeadline;
 
+        LinearLayout containerLL;
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
@@ -27,6 +31,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
             taskName = (TextView) view.findViewById(R.id.taskName);
             taskStatus = (TextView) view.findViewById(R.id.taskStatus);
             taskDeadline = (TextView) view.findViewById(R.id.taskDeadline);
+            containerLL=(LinearLayout) view.findViewById(R.id.itemContainer);
+
         }
     }
 
@@ -69,6 +75,31 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         else {
             viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
         }
+        viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view){
+                PopupMenu popupMenu=new PopupMenu(view.getContext(),viewHolder.containerLL);
+                popupMenu.inflate(R.menu.task_menu);
+                popupMenu.show();
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getItemId()==R.id.Deletebtn)
+                        {
+                            FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(view.getContext(),"Task Removed",Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        return false;
+                    }
+                });
+                return false;
+            }
+        });
 
     }
     // Return the size of your dataset (invoked by the layout manager)

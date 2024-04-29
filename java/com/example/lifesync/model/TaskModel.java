@@ -1,26 +1,34 @@
 package com.example.lifesync;
 
 public class TaskModel {
-    String taskName,taskStatus,taskPriority,taskDeadline,taskDuration;
-    int taskId;
+    String taskName,taskStatus,taskPriority,taskDeadline,taskDuration,userId,taskId;
 
     public TaskModel(){
 
     }
-    public TaskModel(int taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration) {
+    public TaskModel(String taskId, String taskName, String taskStatus, String taskPriority, String taskDeadline, String taskDuration,String userId) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskStatus = taskStatus;
         this.taskPriority = taskPriority;
         this.taskDeadline = taskDeadline;
         this.taskDuration = taskDuration;
+        this.userId = userId;
     }
 
-    public int getTaskId() {
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(int taskId) {
+    public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
 

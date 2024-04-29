@@ -16,4 +16,5 @@
     <string name="priority">Priority (1(Low)-5(High)</string>
     <string name="duration">Duration(hours)</string>
     <string name="backAddTask">Back</string>
+    <string name="deletebtn">Remove</string>
 </resources>
