@@ -3,7 +3,4 @@
     <item android:id="@+id/Deletebtn"
         android:title="@string/deletebtn">
     </item>
-    <item android:id="@+id/Completebtn"
-        android:title="Mark Complete">
-    </item>
 </menu>

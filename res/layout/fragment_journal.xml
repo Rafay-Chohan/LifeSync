@@ -15,8 +15,13 @@
         android:textSize="26dp"
         android:layout_gravity="center"
         android:layout_margin="20dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/logListRV"
+        />
     <Button
-        android:id="@+id/btnAddJourna"
+        android:id="@+id/btnAddJournal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
