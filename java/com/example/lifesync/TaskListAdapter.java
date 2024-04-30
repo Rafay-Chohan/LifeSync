@@ -91,8 +91,22 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(view.getContext(),"Task Removed",Toast.LENGTH_SHORT).show();
+                                    viewHolder.containerLL.setVisibility(view.GONE);
                                 }
                             });
+                        } else if(item.getItemId()==R.id.Completebtn) {
+                            com.example.lifesync.TaskModel completedTask=taskDataSet.get(position);
+                            if(!(completedTask.getTaskStatus().equalsIgnoreCase("completed"))) {
+                                completedTask.setTaskStatus("Completed");
+                                FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).set(completedTask).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(view.getContext(), "Task Completed", Toast.LENGTH_SHORT).show();
+                                        viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#04E824"));
+                                        viewHolder.taskStatus.setText("Completed");
+                                    }
+                                });
+                            }
                         }
                         return false;
                     }
