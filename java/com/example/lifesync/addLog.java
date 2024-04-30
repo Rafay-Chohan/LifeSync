@@ -7,10 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.util.Date;
-
 import androidx.annotation.NonNull;
 
 import com.example.lifesync.TaskModel;
@@ -22,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class addLog extends Activity {
     Button btn,btn2;
-    String TAG = "LIFESYNC 2";
+    String TAG = "LIFESYNC";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +51,11 @@ public class addLog extends Activity {
                                         Log.w(TAG, "Error adding document", e);
                                     }
                                 });
-
                         Intent intent = new Intent(addLog.this,MainActivity.class);
                         startActivity(intent);
                     }
                 else {
-                    nameET.setError("Task name can't be empty");
+                    nameET.setError("Log name can't be empty");
                 }
             }
         });

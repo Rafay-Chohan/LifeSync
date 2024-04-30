@@ -2,7 +2,9 @@ package com.example.lifesync;
 
 public class LogModel {
     String logID,Name,Data,Date,userId;
+    public LogModel(){
 
+    }
     public LogModel(String logID, String name, String data, String date,String userId) {
         this.logID = logID;
         Name = name;

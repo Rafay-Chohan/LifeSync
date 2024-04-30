@@ -30,7 +30,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
             logName = (TextView) view.findViewById(R.id.logName);
             logData = (TextView) view.findViewById(R.id.logData);
             logDate = (TextView) view.findViewById(R.id.logDate);
-            containerLL=(LinearLayout) view.findViewById(R.id.itemContainer);
+            containerLL=(LinearLayout) view.findViewById(R.id.LogContainer);
         }
     }
     /**
@@ -60,8 +60,8 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.logName.setText(logDataSet.get(position).getName());
-        viewHolder.logDate.setText(logDataSet.get(position).getDate());
         viewHolder.logData.setText(logDataSet.get(position).getData());
+        viewHolder.logDate.setText(logDataSet.get(position).getDate());
         viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View view){
@@ -77,7 +77,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
                             FirebaseFirestore.getInstance().collection("Logs").document(logDataSet.get(position).getLogID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Toast.makeText(view.getContext(),"Log Removed",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(view.getContext(), "Log Removed", Toast.LENGTH_SHORT).show();
                                     viewHolder.containerLL.setVisibility(view.GONE);
                                 }
                             });
@@ -88,7 +88,6 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
                 return false;
             }
         });
-
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
