@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/Teal"
     >
-    <Button
-        android:id="@+id/backAddLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/backAddTask"
-        />
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:background="@drawable/tm_icon"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/white"
-        android:layout_margin="20dp"
-        />
-    <EditText
-        android:id="@+id/logName"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_margin="10dp"
-        android:hint="@string/name"
-        />
-    <EditText
-        android:id="@+id/logData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_margin="10dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/backAddLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/backAddTask"
+            />
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/tm_icon"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/white"
+            android:layout_margin="20dp"
+            />
+        <EditText
+            android:id="@+id/logName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_margin="10dp"
+            android:hint="@string/name"
+            />
+        <EditText
+            android:id="@+id/logData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
     <Button
         android:id="@+id/registerLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Add Log"
-        android:layout_margin="20dp"/>
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_margin="20dp"
+        android:text="Add Log" />
+</RelativeLayout>

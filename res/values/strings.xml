@@ -9,7 +9,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btn_add_task">Add Task</string>
     <string name="btn_add_expense">Add Expense</string>
-    <string name="btn_add_journal">+</string>
+    <string name="btn_add">+</string>
     <string name="name">Name</string>
     <string name="deadline_date">Deadline Date (YYYY-MM-DD)</string>
     <string name="deadline_time">Deadline Time (16:00:00)</string>
@@ -17,4 +17,5 @@
     <string name="duration">Duration(hours)</string>
     <string name="backAddTask">Back</string>
     <string name="deletebtn">Remove</string>
+    <string name="amount">Amount</string>
 </resources>

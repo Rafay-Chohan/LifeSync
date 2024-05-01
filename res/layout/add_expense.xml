@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <Button
-            android:id="@+id/backAddTask"
+            android:id="@+id/backAddExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/backAddTask"
@@ -24,7 +24,7 @@
             android:layout_margin="20dp"
             />
         <EditText
-            android:id="@+id/taskName"
+            android:id="@+id/ExpenseName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -32,48 +32,24 @@
             android:hint="@string/name"
             />
         <EditText
-            android:id="@+id/taskDeadlineDate"
+            android:id="@+id/ExpenseAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:layout_margin="10dp"
-            android:inputType="date"
-            android:hint="@string/deadline_date"/>
-        <EditText
-            android:id="@+id/taskDeadlineTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_margin="10dp"
-            android:inputType="time"
-            android:hint="@string/deadline_time"/>
+            android:inputType="numberDecimal"
+            android:hint="@string/amount"/>
 
-        <EditText
-            android:id="@+id/taskPriority"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_margin="10dp"
-            android:inputType="numberDecimal"
-            android:hint="@string/priority"/>
-        <EditText
-            android:id="@+id/taskDuration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_margin="10dp"
-            android:inputType="numberDecimal"
-            android:hint="@string/duration"/>
     </LinearLayout>
 
     <Button
-        android:id="@+id/registerTask"
+        android:id="@+id/registerExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
-        android:text="@string/btn_add_task"
+        android:text="@string/btn_add_expense"
         android:layout_margin="20dp"/>
 </RelativeLayout>

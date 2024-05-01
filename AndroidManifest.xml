@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".addTask"/>
         <activity android:name=".addLog"/>
+        <activity android:name=".addExpense"/>
     </application>
 
 </manifest>
