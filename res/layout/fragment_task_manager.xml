@@ -19,6 +19,7 @@
             android:layout_gravity="center"
             android:layout_margin="20dp"
             android:text="@string/task_manager"
+            android:textColor="@color/black"
             android:textSize="26dp" />
 
         <androidx.recyclerview.widget.RecyclerView

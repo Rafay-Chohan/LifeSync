@@ -18,4 +18,5 @@
     <string name="backAddTask">Back</string>
     <string name="deletebtn">Remove</string>
     <string name="amount">Amount</string>
+    <string name="refresh">Refresh</string>
 </resources>
