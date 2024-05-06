@@ -54,6 +54,7 @@ public class TaskManagerFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), addTask.class);
                 startActivity(intent);
+                taskListAdapter.notifyDataSetChanged();
             }
         });
         db.collection("Tasks")

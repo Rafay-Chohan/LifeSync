@@ -52,6 +52,7 @@ public class BudgetTrackerFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), addExpense.class);
                 startActivity(intent);
+                expenseListAdapter.notifyDataSetChanged();
             }
         });
         db.collection("Expenses")

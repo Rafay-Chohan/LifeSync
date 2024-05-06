@@ -1,14 +1,20 @@
 package com.example.lifesync;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
@@ -22,17 +28,54 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class addTask extends Activity {
     Button btn,btn2;
+    EditText date,time;
+    DatePickerDialog datePickerDialog;
+    TimePickerDialog timePickerDialog;
     String TAG = "LIFESYNC";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_task);
+        date=findViewById(R.id.taskDeadlineDate);
+        time=findViewById(R.id.taskDeadlineTime);
+        Calendar calendar=Calendar.getInstance();
+        final int day=calendar.get(Calendar.DAY_OF_MONTH);
+        final int year=calendar.get(Calendar.YEAR);
+        final int month=calendar.get(Calendar.MONTH);
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog=new DatePickerDialog(addTask.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        date.setText(year+"-"+(month+1)+"-"+dayOfMonth);
+                    }
+                },year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                datePickerDialog.show();
+            }
+
+        });
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timePickerDialog = new TimePickerDialog(addTask.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        if(minutes>10)
+                            time.setText(hourOfDay + ":" + minutes+":00");
+                        else
+                            time.setText(hourOfDay + ":0" + minutes+":00");
+                    }
+                }, 0, 0, false);
+                timePickerDialog.show();
+            }
+        });
 
         btn =(Button)findViewById(R.id.registerTask);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EditText nameET = (EditText) findViewById(R.id.taskName);
                 String taskNameInput = nameET.getText().toString().trim();
 

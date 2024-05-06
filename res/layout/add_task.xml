@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:layout_margin="10dp"
-            android:inputType="date"
+            android:focusable="false"
+            android:inputType="none"
             android:hint="@string/deadline_date"/>
         <EditText
             android:id="@+id/taskDeadlineTime"
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:layout_margin="10dp"
-            android:inputType="time"
+            android:focusable="false"
+            android:inputType="none"
             android:hint="@string/deadline_time"/>
 
         <EditText
