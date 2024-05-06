@@ -34,12 +34,12 @@ public class addExpense extends Activity {
 
                 EditText AmountET = (EditText) findViewById(R.id.ExpenseAmount);
                 String ExpenseAmountInput = AmountET.getText().toString().trim();
-               //int Amount=Integer.parseInt(ExpenseAmountInput);
+                int Amount=Integer.parseInt(ExpenseAmountInput);
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 if(!ExpenseNameInput.equals("")) {
-                    ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,2000,"",FirebaseAuth.getInstance().getUid());
+                    ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,Amount,"",FirebaseAuth.getInstance().getUid());
                     db.collection("Expenses").add(expenseModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {

@@ -38,6 +38,7 @@ implementation("com.google.firebase:firebase-analytics")
 implementation("com.google.firebase:firebase-auth")
 implementation("com.google.firebase:firebase-firestore:24.11.1")
 implementation("com.google.firebase:firebase-firestore")
+implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
     
 add this in gradle.properties:- android.nonFinalResIds=false
 
