@@ -52,8 +52,7 @@ public class addExpense extends Activity {
                                     Log.w(TAG, "Error adding document", e);
                                 }
                             });
-                    Intent intent = new Intent(addExpense.this,MainActivity.class);
-                    startActivity(intent);
+                    finish();
                 }
                 else {
                     nameET.setError("Expense name can't be empty");
@@ -64,8 +63,7 @@ public class addExpense extends Activity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(addExpense.this,MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

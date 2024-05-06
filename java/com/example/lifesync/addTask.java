@@ -88,9 +88,7 @@ public class addTask extends Activity {
                                         Log.w(TAG, "Error adding document", e);
                                     }
                                 });
-
-                        Intent intent = new Intent(addTask.this,MainActivity.class);
-                        startActivity(intent);
+                        finish();
                     }
                     else if(Integer.parseInt(taskPriorityInput)<1 || Integer.parseInt(taskPriorityInput)>5) {
                         priorityET.setError("Priority should be between 1 and 5");
@@ -105,8 +103,7 @@ public class addTask extends Activity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(addTask.this,MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

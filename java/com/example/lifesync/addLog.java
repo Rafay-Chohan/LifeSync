@@ -51,8 +51,7 @@ public class addLog extends Activity {
                                         Log.w(TAG, "Error adding document", e);
                                     }
                                 });
-                        Intent intent = new Intent(addLog.this,MainActivity.class);
-                        startActivity(intent);
+                    finish();
                     }
                 else {
                     nameET.setError("Log name can't be empty");
@@ -63,8 +62,7 @@ public class addLog extends Activity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(addLog.this,MainActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

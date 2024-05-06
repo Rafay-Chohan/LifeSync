@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     ActivityMainBinding binding;
-    int refresh=0;
+    int refresh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
