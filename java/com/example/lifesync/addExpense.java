@@ -38,28 +38,32 @@ public class addExpense extends Activity {
 
                 EditText AmountET = (EditText) findViewById(R.id.ExpenseAmount);
                 String ExpenseAmountInput = AmountET.getText().toString().trim();
-                int Amount=Integer.parseInt(ExpenseAmountInput);
 
                 String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 if(!ExpenseNameInput.equals("")) {
-                    ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,Amount,CurrentDate,FirebaseAuth.getInstance().getUid());
-                    db.collection("Expenses").add(expenseModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Error adding document", e);
-                                }
-                            });
-                    finish();
+                    if(!ExpenseAmountInput.equals("")){
+                        int Amount=Integer.parseInt(ExpenseAmountInput);
+                        ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,Amount,CurrentDate,FirebaseAuth.getInstance().getUid());
+                        db.collection("Expenses").add(expenseModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error adding document", e);
+                                    }
+                                });
+                        finish();
+                    }
+                    else {
+                        AmountET.setError("Expense Ammount can't be empty");
+                    }
                 }
                 else {
                     nameET.setError("Expense name can't be empty");
