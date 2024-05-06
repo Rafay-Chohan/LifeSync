@@ -16,6 +16,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class addLog extends Activity {
     Button btn,btn2;
     String TAG = "LIFESYNC";
@@ -35,10 +39,13 @@ public class addLog extends Activity {
                 EditText dataET = (EditText) findViewById(R.id.logData);
                 String logDataInput = dataET.getText().toString().trim();
 
+                String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 if(!logNameInput.equals("")) {
-                        com.example.lifesync.LogModel logModel = new com.example.lifesync.LogModel("", logNameInput, logDataInput,"", FirebaseAuth.getInstance().getUid());
+                        com.example.lifesync.LogModel logModel = new com.example.lifesync.LogModel("", logNameInput, logDataInput,CurrentDate, FirebaseAuth.getInstance().getUid());
                         db.collection("Logs").add(logModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {

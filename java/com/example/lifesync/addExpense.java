@@ -16,6 +16,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class addExpense extends Activity {
     Button btn,btn2;
     String TAG = "LIFESYNC";
@@ -36,10 +40,13 @@ public class addExpense extends Activity {
                 String ExpenseAmountInput = AmountET.getText().toString().trim();
                 int Amount=Integer.parseInt(ExpenseAmountInput);
 
+                String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+
+
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 if(!ExpenseNameInput.equals("")) {
-                    ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,Amount,"",FirebaseAuth.getInstance().getUid());
+                    ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,Amount,CurrentDate,FirebaseAuth.getInstance().getUid());
                     db.collection("Expenses").add(expenseModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
                                 public void onSuccess(DocumentReference documentReference) {
