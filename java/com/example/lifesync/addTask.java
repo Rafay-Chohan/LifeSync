@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -101,7 +102,8 @@ public class addTask extends Activity {
                             Date currentDate = new Date();
                             if(!taskDeadlineDInput.equals("")) {
                                 Date parsedDate = dateFormatter.parse(taskDeadlineDInput);
-                                if (parsedDate.before(currentDate)) {
+                                Date yesterdayDate=new Date(currentDate.getTime()-(1000*60*60*24));
+                                if (parsedDate.before(yesterdayDate)) {
                                     throw new ParseException("Date is in the past", 0);
                                 }
                             }

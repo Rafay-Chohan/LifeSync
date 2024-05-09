@@ -2,6 +2,7 @@ package com.example.lifesync;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +40,12 @@ public class addExpense extends Activity {
                 EditText AmountET = (EditText) findViewById(R.id.ExpenseAmount);
                 String ExpenseAmountInput = AmountET.getText().toString().trim();
 
+                EditText PriorityET = (EditText) findViewById(R.id.ExpensePriority);
+                String ExpensePriorityInput = PriorityET.getText().toString().trim();
+
+                EditText CategoryET = (EditText) findViewById(R.id.ExpenseCategory);
+                String ExpenseCategoryInput = CategoryET.getText().toString().trim();
+
                 String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -46,7 +53,10 @@ public class addExpense extends Activity {
                 if(!ExpenseNameInput.equals("")) {
                     if(!ExpenseAmountInput.equals("")){
                         int Amount=Integer.parseInt(ExpenseAmountInput);
-                        ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,Amount,CurrentDate,FirebaseAuth.getInstance().getUid());
+                        int PriorityExp=0;
+                        if(!ExpensePriorityInput.equals(""))
+                            PriorityExp=Integer.parseInt(ExpensePriorityInput);
+                        ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,CurrentDate,FirebaseAuth.getInstance().getUid(),ExpenseCategoryInput,Amount, PriorityExp);
                         db.collection("Expenses").add(expenseModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {

@@ -1,19 +1,37 @@
 package com.example.lifesync.model;
 
 public class ExpenseModel {
-    String ExpId,Name,Date,userId;
-    int Amount;
+    String ExpId,Name,Date,userId, Category;
+    int Amount, ExpPriority;
 
     public ExpenseModel() {
 
     }
 
-    public ExpenseModel(String expId, String name, int amount, String date, String userId) {
+    public ExpenseModel(String expId, String name, String date, String userId, String category, int amount, int expPriority) {
         ExpId = expId;
         Name = name;
-        Amount = amount;
         Date = date;
         this.userId = userId;
+        Category = category;
+        Amount = amount;
+        ExpPriority = expPriority;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    public int getExpPriority() {
+        return ExpPriority;
+    }
+
+    public void setExpPriority(int expPriority) {
+        ExpPriority = expPriority;
     }
 
     public String getExpId() {

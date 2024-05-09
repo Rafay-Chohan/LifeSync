@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:hint="@string/name"
             />
@@ -36,9 +37,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:inputType="numberDecimal"
             android:hint="@string/amount"/>
+        <EditText
+            android:id="@+id/ExpensePriority"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:inputType="numberDecimal"
+            android:hint="@string/priority"/>
+        <EditText
+            android:id="@+id/ExpenseCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:hint="Category"
+            />
 
     </LinearLayout>
 
