@@ -22,7 +22,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
     private ArrayList<ExpenseModel> ExpenseDataSet;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView ExpenseName,ExpenseAmount,ExpenseDate;
+        private final TextView ExpenseName,ExpenseAmount,ExpenseDate,ExpenseCategory;
 
         LinearLayout containerLL;
         public ViewHolder(View view) {
@@ -31,6 +31,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             ExpenseName = (TextView) view.findViewById(R.id.ExpenseName);
             ExpenseAmount=(TextView) view.findViewById(R.id.ExpenseAmount);
             ExpenseDate = (TextView) view.findViewById(R.id.ExpenseDate);
+            ExpenseCategory = (TextView) view.findViewById(R.id.ExpenseCategory);
             containerLL=(LinearLayout) view.findViewById(R.id.ExpenseContainer);
         }
     }
@@ -63,6 +64,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         viewHolder.ExpenseName.setText(ExpenseDataSet.get(position).getName());
         viewHolder.ExpenseAmount.setText(Integer.toString(ExpenseDataSet.get(position).getAmount()));
         viewHolder.ExpenseDate.setText(ExpenseDataSet.get(position).getDate());
+        viewHolder.ExpenseCategory.setText(ExpenseDataSet.get(position).getCategory());
         viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
             public boolean onLongClick(View view){

@@ -28,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:hint="@string/name"
             />
@@ -36,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:focusable="false"
             android:inputType="none"
@@ -45,6 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:focusable="false"
             android:inputType="none"
@@ -55,6 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:inputType="numberDecimal"
             android:hint="@string/priority"/>
@@ -63,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:inputType="numberDecimal"
             android:hint="@string/duration"/>

@@ -12,6 +12,7 @@
         app:cardCornerRadius="5dp"
         android:background="@color/white">
         <LinearLayout
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -21,6 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Name:"
+                android:textColor="@color/black"
                 android:textSize="20dp"
             />
 
@@ -34,12 +36,14 @@
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:text="Status:"
+                    android:textColor="@color/black"
                     android:textSize="13dp"/>
                 <TextView
                     android:id="@+id/taskDeadline"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:text="Deadine:"
+                    android:textColor="@color/black"
                     android:textSize="13dp"/>
             </LinearLayout>
         </LinearLayout>
