@@ -51,7 +51,8 @@
             android:layout_height="250dp"
             android:background="@color/white"
             android:textColor="@color/black"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:gravity="top"/>
     </LinearLayout>
     <Button
         android:id="@+id/registerLog"
