@@ -93,7 +93,10 @@ public class addTask extends Activity {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                 if(!taskNameInput.equals("")) {
-                    if(taskPriorityInput.equals("") || (taskPriorityInput.length() > 0 && Integer.parseInt(taskPriorityInput)>=1 && Integer.parseInt(taskPriorityInput)<=5)) {
+                    int Prioritytask=0;
+                    if(!taskPriorityInput.equals(""))
+                        Prioritytask=(int)Double.parseDouble(taskPriorityInput);
+                    if(taskPriorityInput.equals("") || (taskPriorityInput.length() > 0 && Prioritytask>=1 && Prioritytask<=5)) {
                         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
                         dateFormatter.setLenient(false);
                         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
@@ -120,7 +123,7 @@ public class addTask extends Activity {
                             return;
                         }
 
-                        TaskModel taskModel = new TaskModel("", taskNameInput, "Pending",taskPriorityInput,taskDeadlineInput,taskDurationInput, FirebaseAuth.getInstance().getUid());
+                        TaskModel taskModel = new TaskModel("", taskNameInput, "Pending",Prioritytask,taskDeadlineInput,taskDurationInput, FirebaseAuth.getInstance().getUid());
                         db.collection("Tasks").add(taskModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {

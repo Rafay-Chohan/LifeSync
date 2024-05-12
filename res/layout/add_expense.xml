@@ -72,7 +72,7 @@
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:inputType="numberDecimal"
-            android:hint="@string/priority"
+            android:hint="@string/priority_1_low_3_high"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ExpenseAmount"

@@ -52,10 +52,11 @@ public class addExpense extends Activity {
 
                 if(!ExpenseNameInput.equals("")) {
                     if(!ExpenseAmountInput.equals("")){
-                        int Amount=Integer.parseInt(ExpenseAmountInput);
+                        int Amount=(int)Double.parseDouble(ExpenseAmountInput);
                         int PriorityExp=0;
                         if(!ExpensePriorityInput.equals(""))
-                            PriorityExp=Integer.parseInt(ExpensePriorityInput);
+                            PriorityExp=(int)Double.parseDouble(ExpensePriorityInput);
+                        if(ExpensePriorityInput.equals("") || (ExpensePriorityInput.length() > 0 && PriorityExp>=1 && PriorityExp<=3)){
                         ExpenseModel expenseModel=new ExpenseModel("",ExpenseNameInput,CurrentDate,FirebaseAuth.getInstance().getUid(),ExpenseCategoryInput,Amount, PriorityExp);
                         db.collection("Expenses").add(expenseModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
@@ -69,10 +70,13 @@ public class addExpense extends Activity {
                                         Log.w(TAG, "Error adding document", e);
                                     }
                                 });
-                        finish();
+                        finish();}
+                        else{
+                            PriorityET.setError("Priority should be between 1 and 3");
+                        }
                     }
                     else {
-                        AmountET.setError("Expense Ammount can't be empty");
+                        AmountET.setError("Expense Amount can't be empty");
                     }
                 }
                 else {
