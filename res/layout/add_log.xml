@@ -11,6 +11,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/backAddTask"
+            android:background="@drawable/btn"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -40,7 +42,7 @@
             android:id="@+id/logName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/textview"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:hint="@string/name"
@@ -49,7 +51,7 @@
             android:id="@+id/logData"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:background="@color/white"
+            android:background="@drawable/textview"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:gravity="top"/>
@@ -63,7 +65,8 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
         android:layout_margin="20dp"
-        android:text="Add Log"
+        android:text="@string/add_log"
+        android:background="@drawable/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

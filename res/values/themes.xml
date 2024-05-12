@@ -8,6 +8,7 @@
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
              drawable. -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
         <!-- Set the theme of the Activity that follows your splash screen.-->
         <item name="postSplashScreenTheme">@style/Theme.LifeSync</item>

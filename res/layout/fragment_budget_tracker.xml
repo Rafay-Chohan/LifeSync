@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".BudgetTrackerFragment">
-
-
         <TextView
             android:id="@+id/tv"
             android:layout_width="wrap_content"
@@ -15,7 +13,7 @@
             android:layout_gravity="center"
             android:text="@string/budget_tracker"
             android:textColor="@color/black"
-            android:layout_margin="15dp"
+            android:layout_marginBottom="15dp"
             android:textSize="26dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAddExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,6 +38,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
         android:text="@string/btn_add"
+            android:background="@drawable/btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />

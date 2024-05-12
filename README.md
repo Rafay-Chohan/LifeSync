@@ -24,30 +24,37 @@ List Features:
 
 
 Changes for Gradle script:
-add google-services.json file for DB connection
+1)add google-services.json file for DB connection
 
-add this line in build.gradle.kts(module:app):-
+2)add this line in build.gradle.kts(module:app):-
 buildFeatures 
 {
 viewBinding = true
 }
 
-add this line in build.gradle.kts(module:app) Dependencies:-
-implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
-implementation("com.google.firebase:firebase-analytics")
-implementation("com.google.firebase:firebase-auth")
-implementation("com.google.firebase:firebase-firestore:24.11.1")
-implementation("com.google.firebase:firebase-firestore")
-implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
-    
-add this in gradle.properties:- android.nonFinalResIds=false
+3)add this line in build.gradle.kts(module:app) 
+dependencies {
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.12.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("com.google.firebase:firebase-auth:23.0.0")
+    implementation("com.google.firebase:firebase-firestore:25.0.0")
+    implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
+    implementation ("com.google.android.gms:play-services-auth:20.2.0")
+    implementation ("androidx.credentials:credentials:1.2.2")
+    implementation ("androidx.credentials:credentials-play-services-auth:1.2.2")
+}
 
-add in Gradle>build.gradle.kts
+4)add this in gradle.properties:- android.nonFinalResIds=false
+
+5)add in Gradle>build.gradle.kts
 buildscript {
 dependencies {
 classpath("com.google.gms:google-services:4.4.1")
 }
-
 }
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

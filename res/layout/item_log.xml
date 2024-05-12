@@ -5,17 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="5dp"
-    android:id="@+id/LogContainer">
+    android:id="@+id/LogContainer"
+    android:background="@drawable/item">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="15dp"
         android:background="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/white"
+            android:layout_margin="7dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,7 +46,6 @@
                 android:textSize="14dp"
                 android:textColor="@color/black"
                 />
-
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

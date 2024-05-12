@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import android.window.SplashScreen;
 import android.os.Bundle;
 
 import com.example.lifesync.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.jItem:
                     replaceFragment(new JournalFragment());
                     refresh=2;
+                    break;
+                case R.id.signOut:
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(new Intent(MainActivity.this,SignIn.class));
                     break;
             }
 

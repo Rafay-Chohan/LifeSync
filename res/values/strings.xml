@@ -19,4 +19,5 @@
     <string name="deletebtn">Remove</string>
     <string name="amount">Amount</string>
     <string name="refresh">Refresh</string>
+    <string name="add_log">Add Log</string>
 </resources>

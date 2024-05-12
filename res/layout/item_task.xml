@@ -5,17 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_margin="5dp"
+    android:background="@drawable/item"
     android:id="@+id/itemContainer">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="15dp"
         android:background="@color/white">
         <LinearLayout
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_margin="7dp"
             >
             <TextView
                 android:id="@+id/taskName"
