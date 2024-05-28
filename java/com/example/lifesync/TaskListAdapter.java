@@ -102,7 +102,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(view.getContext(), "Task Completed", Toast.LENGTH_SHORT).show();
-                                        viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#04E824"));
+                                        viewHolder.taskStatus.setBackgroundResource(R.drawable.statuscomp);
                                         viewHolder.taskStatus.setText("Completed");
                                     }
                                 });
