@@ -2,16 +2,20 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.LifeSync" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/LightBackground</item>
     </style>
-
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
-             drawable. -->
+    <style name="Theme.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
         <!-- Set the theme of the Activity that follows your splash screen.-->
         <item name="postSplashScreenTheme">@style/Theme.LifeSync</item>
     </style>
+
     <style name="Theme.LifeSync" parent="Base.Theme.LifeSync" />
+
+    <style name="ScreenBackground"><item name="android:background">@color/LightBackground</item></style><!--Works-->
+    <style name="Button"><item name="android:backgroundTint">@color/LightButton</item><item name="android:textColor">@color/white</item></style><!--Works-->
+    <style name="viewBackground"><item name="android:backgroundTint">@color/LightViewBackground</item></style><!--Works-->
+    <style name="TextColor"><item name="android:textColor">@color/LightText</item></style><!--Works-->
+    <style name="Imagebg"><item name="android:backgroundTint">@color/LightViewBackground</item></style><!--Works-->
 </resources>

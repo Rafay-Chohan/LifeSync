@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/cyan">
+    tools:context=".addTask"
+    style="@style/ScreenBackground">
 
         <Button
             android:id="@+id/backAddTask"
@@ -13,6 +15,7 @@
             android:text="@string/backAddTask"
             android:layout_marginTop="10dp"
             android:background="@drawable/btn"
+            style="@style/Button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -22,7 +25,7 @@
             android:layout_height="150dp"
             android:background="@drawable/tm_icon"
             android:layout_gravity="center"
-            android:backgroundTint="@color/white"
+            style="@style/Imagebg"
             android:layout_margin="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,49 +46,59 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:hint="@string/name"
+            android:textColorHint="@color/DarkBackground"
             />
         <EditText
             android:id="@+id/taskDeadlineDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:focusable="false"
             android:inputType="none"
-            android:hint="@string/deadline_date"/>
+            android:hint="@string/deadline_date"
+            android:textColorHint="@color/DarkBackground"/>
         <EditText
             android:id="@+id/taskDeadlineTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:focusable="false"
             android:inputType="none"
-            android:hint="@string/deadline_time"/>
+            android:hint="@string/deadline_time"
+            android:textColorHint="@color/DarkBackground"/>
 
         <EditText
             android:id="@+id/taskPriority"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:inputType="numberDecimal"
-            android:hint="@string/priority"/>
+            android:hint="@string/priority"
+            android:textColorHint="@color/DarkBackground"/>
         <EditText
             android:id="@+id/taskDuration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:inputType="numberDecimal"
-            android:hint="@string/duration"/>
+            android:hint="@string/duration"
+            android:textColorHint="@color/DarkBackground"/>
     </LinearLayout>
 
     <Button
@@ -98,6 +111,7 @@
         android:layout_marginBottom="15dp"
         android:text="@string/btn_add_task"
         android:background="@drawable/btn"
+        style="@style/Button"
         android:layout_margin="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

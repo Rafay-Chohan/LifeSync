@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/cyan">
+    style="@style/ScreenBackground">
     <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="10dp"
         android:id="@+id/refresh"
@@ -13,8 +13,10 @@
         android:layout_height="wrap_content"
         android:text="@string/refresh"
         android:background="@drawable/btn"
+        style="@style/Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
     </androidx.appcompat.widget.AppCompatButton>
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -33,5 +35,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/nav_bar" />
+        app:menu="@menu/nav_bar"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

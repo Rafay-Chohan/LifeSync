@@ -67,10 +67,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         viewHolder.taskDeadline.setText(taskDataSet.get(position).getTaskDeadline());
         String status=taskDataSet.get(position).getTaskStatus();
         if(status.equalsIgnoreCase("completed")){
-            viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#04E824"));
+            viewHolder.taskStatus.setBackgroundResource(R.drawable.statuscomp);
         }
         else if(status.equalsIgnoreCase("pending")){
-            viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#F6F740"));
+            viewHolder.taskStatus.setBackgroundResource(R.drawable.statuspending);
         }
         else {
             viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#FFFFFFFF"));

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/cyan">
+    style="@style/ScreenBackground">
 
         <Button
             android:id="@+id/backAddLog"
@@ -12,6 +12,7 @@
             android:layout_height="wrap_content"
             android:text="@string/backAddTask"
             android:background="@drawable/btn"
+            style="@style/Button"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +23,7 @@
             android:layout_height="150dp"
             android:background="@drawable/log_icon"
             android:layout_gravity="center"
-            android:backgroundTint="@color/white"
+            style="@style/Imagebg"
             android:layout_margin="15dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,15 +44,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:hint="@string/name"
+            android:textColorHint="@color/DarkBackground"
             />
         <EditText
             android:id="@+id/logData"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@drawable/textview"
+            style="@style/viewBackground"
             android:textColor="@color/black"
             android:layout_margin="10dp"
             android:gravity="top"/>
@@ -67,6 +71,7 @@
         android:layout_margin="20dp"
         android:text="@string/add_log"
         android:background="@drawable/btn"
+        style="@style/Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

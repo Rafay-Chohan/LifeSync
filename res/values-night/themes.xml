@@ -3,5 +3,19 @@
     <style name="Base.Theme.LifeSync" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:statusBarColor">@color/DarkBackground</item>
     </style>
+    <style name="Theme.Starting" parent="Theme.SplashScreen">
+        <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
+             drawable. -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <!-- Set the theme of the Activity that follows your splash screen.-->
+        <item name="postSplashScreenTheme">@style/Theme.LifeSync</item>
+    </style>
+    <style name="ScreenBackground" parent="Theme.Material3.DayNight.NoActionBar"><item name="android:background">@color/DarkBackground</item></style><!--Works-->
+    <style name="Button"><item name="android:backgroundTint">@color/DarkButton</item><item name="android:textColor">@color/white</item></style><!--Works-->
+    <style name="viewBackground"><item name="android:backgroundTint">@color/DarkViewBackground</item></style><!--Works-->
+    <style name="TextColor"><item name="android:textColor">@color/DarkText</item></style><!--Works-->
+    <style name="Imagebg"><item name="android:backgroundTint">@color/DarkViewBackground</item></style><!--Works-->
 </resources>
