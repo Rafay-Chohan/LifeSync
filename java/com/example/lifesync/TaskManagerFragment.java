@@ -80,7 +80,6 @@ public class TaskManagerFragment extends Fragment {
                         }
                     }
                 });
-
         return view;
     }
 }

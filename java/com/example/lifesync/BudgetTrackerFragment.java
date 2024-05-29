@@ -76,7 +76,6 @@ public class BudgetTrackerFragment extends Fragment {
                         }
                     }
                 });
-
         return view;
     }
 }

@@ -74,7 +74,6 @@ public class JournalFragment extends Fragment {
                         }
                     }
                 });
-
         return view;
     }
 }

@@ -8,6 +8,7 @@
     style="@style/ScreenBackground">
     <androidx.appcompat.widget.AppCompatButton
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:id="@+id/refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
