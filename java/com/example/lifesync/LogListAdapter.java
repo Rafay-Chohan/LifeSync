@@ -1,5 +1,4 @@
 package com.example.lifesync;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,12 +32,6 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
             containerLL=(LinearLayout) view.findViewById(R.id.LogContainer);
         }
     }
-    /**
-     * Initialize the dataset of the Adapter
-     *
-     * @param dataSet String[] containing the data to populate views to be used
-     * by RecyclerView
-     */
     public LogListAdapter(ArrayList<com.example.lifesync.LogModel> logDataSet) {
         this.logDataSet = logDataSet;
     }

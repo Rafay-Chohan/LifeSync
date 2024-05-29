@@ -1,5 +1,4 @@
 package com.example.lifesync;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,12 +34,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             containerLL=(LinearLayout) view.findViewById(R.id.ExpenseContainer);
         }
     }
-    /**
-     * Initialize the dataset of the Adapter
-     *
-     * @param dataSet String[] containing the data to populate views to be used
-     * by RecyclerView
-     */
+
     public ExpenseListAdapter(ArrayList<ExpenseModel> ExpenseDataSet) {
         this.ExpenseDataSet = ExpenseDataSet;
     }

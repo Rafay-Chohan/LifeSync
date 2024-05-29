@@ -43,6 +43,7 @@
                     android:id="@+id/taskDeadline"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:text="Deadine:"
                     style="@style/TextColor"
                     android:textSize="13dp"/>

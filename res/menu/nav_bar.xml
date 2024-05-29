@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/journal"
-        android:icon="@drawable/j_icon"
+        android:icon="@drawable/log_icon"
         android:id="@+id/jItem"/>
     <item
         android:layout_width="wrap_content"

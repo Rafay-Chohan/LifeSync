@@ -9,8 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-import android.window.SplashScreen;
+
 import android.os.Bundle;
 
 import com.example.lifesync.databinding.ActivityMainBinding;
@@ -36,14 +35,6 @@ public class MainActivity extends AppCompatActivity {
         replaceFragment(new TaskManagerFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            /*if (item.getItemId()==R.id.btItem){
-                replaceFragment(new BudgetTrackerFragment());
-            } else if (item.getItemId()==R.id.tmItem) {
-                replaceFragment(new TaskManagerFragment());
-            }else if (item.getItemId()==R.id.jItem) {
-                replaceFragment(new JournalFragment());
-            }*/
-            //Possible issues with Switch statement using non constant ID, will use if/else if required
             switch (item.getItemId()){
                 case R.id.tmItem:
                     replaceFragment(new TaskManagerFragment());
