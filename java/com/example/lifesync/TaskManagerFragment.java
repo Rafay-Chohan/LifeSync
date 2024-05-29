@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -59,6 +60,9 @@ public class TaskManagerFragment extends Fragment {
         });
         db.collection("Tasks")
                 .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                .orderBy("taskStatus", Query.Direction.DESCENDING)
+                .orderBy("taskDeadline", Query.Direction.ASCENDING)
+                .orderBy("taskPriority", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

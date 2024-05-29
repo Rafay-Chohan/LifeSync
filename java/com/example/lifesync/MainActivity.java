@@ -1,5 +1,6 @@
 package com.example.lifesync;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -13,6 +14,11 @@ import android.window.SplashScreen;
 import android.os.Bundle;
 
 import com.example.lifesync.databinding.ActivityMainBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -53,7 +59,16 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.signOut:
                     FirebaseAuth.getInstance().signOut();
-                    startActivity(new Intent(MainActivity.this,SignIn.class));
+                    GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(MainActivity.this,
+                    new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
+                    googleSignInClient.signOut().addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // Redirect to login activity
+                            startActivity(new Intent(MainActivity.this,SignIn.class));
+                        }
+                    });
+                    //startActivity(new Intent(MainActivity.this,SignIn.class));
                     break;
             }
 

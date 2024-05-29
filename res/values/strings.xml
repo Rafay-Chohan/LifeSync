@@ -7,8 +7,6 @@
     <string name="main_page">Main Page</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="btn_add_task">Add Task</string>
-    <string name="btn_add_expense">Add Expense</string>
     <string name="btn_add">+</string>
     <string name="name">Name</string>
     <string name="deadline_date">Select Date</string>
@@ -19,7 +17,7 @@
     <string name="deletebtn">Remove</string>
     <string name="amount">Amount</string>
     <string name="refresh">Refresh</string>
-    <string name="add_log">Add Log</string>
     <string name="priority_1_low_3_high">Priority(1(low)-3(high))</string>
     <string name="change_status">Change Status</string>
+    <string name="category">Category</string>
 </resources>

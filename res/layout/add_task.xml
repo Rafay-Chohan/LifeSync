@@ -104,7 +104,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
-        android:text="@string/btn_add_task"
+        android:text="@string/btn_add"
         android:background="@drawable/btn"
         style="@style/Button"
         android:layout_margin="20dp"
