@@ -106,6 +106,16 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                                         viewHolder.taskStatus.setText("Completed");
                                     }
                                 });
+                            }else if(!(completedTask.getTaskStatus().equalsIgnoreCase("pending"))) {
+                                completedTask.setTaskStatus("Pending");
+                                FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).set(completedTask).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(view.getContext(), "Task Pending", Toast.LENGTH_SHORT).show();
+                                        viewHolder.taskStatus.setBackgroundResource(R.drawable.statuspending);
+                                        viewHolder.taskStatus.setText("Pending");
+                                    }
+                                });
                             }
                         }
                         return false;

@@ -4,6 +4,6 @@
         android:title="@string/deletebtn">
     </item>
     <item android:id="@+id/Completebtn"
-        android:title="Mark Complete">
+        android:title="@string/change_status">
     </item>
 </menu>

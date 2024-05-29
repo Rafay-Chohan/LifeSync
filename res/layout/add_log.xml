@@ -45,7 +45,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/textview"
             style="@style/viewBackground"
-            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:hint="@string/name"
             android:textColorHint="@color/DarkBackground"
@@ -56,7 +55,6 @@
             android:layout_height="250dp"
             android:background="@drawable/textview"
             style="@style/viewBackground"
-            android:textColor="@color/black"
             android:layout_margin="10dp"
             android:gravity="top"/>
     </LinearLayout>
