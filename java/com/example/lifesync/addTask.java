@@ -97,28 +97,6 @@ public class addTask extends Activity {
                         dateFormatter.setLenient(false);
                         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
                         timeFormatter.setLenient(false);
-                        try {
-                            Date currentDate = new Date();
-                            if(!taskDeadlineDInput.equals("")) {
-                                Date parsedDate = dateFormatter.parse(taskDeadlineDInput);
-                                Date yesterdayDate=new Date(currentDate.getTime()-(1000*60*60*24));
-                                if (parsedDate.before(yesterdayDate)) {
-                                    throw new ParseException("Date is in the past", 0);
-                                }
-                            }
-                        } catch (ParseException e) {
-                            deadlinedateET.setError("Date should be in the format YYYY-MM-DD and valid");
-                            return;
-                        }
-                        try {
-                            if(!taskDeadlineTInput.equals("")) {
-                                timeFormatter.parse(taskDeadlineTInput);
-                            }
-                        } catch (ParseException e) {
-                            deadlinetimeET.setError("Time should be in the format HH:MM:SS and valid");
-                            return;
-                        }
-
                         TaskModel taskModel = new TaskModel("", taskNameInput, "Pending",Prioritytask,taskDeadlineInput,taskDurationInput, FirebaseAuth.getInstance().getUid());
                         db.collection("Tasks").add(taskModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override

@@ -1,4 +1,5 @@
 package com.example.lifesync;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,7 +70,11 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.Deletebtn)
+                        if(item.getItemId()==R.id.Editbtn){
+                            Intent intent = new Intent(view.getContext(), EditExpense.class);
+                            intent.putExtra("expId", ExpenseDataSet.get(position).getExpId()); // Pass task ID to EditTaskActivity
+                            view.getContext().startActivity(intent);
+                        }else if(item.getItemId()==R.id.Deletebtn)
                         {
                             FirebaseFirestore.getInstance().collection("Expenses").document(ExpenseDataSet.get(position).getExpId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

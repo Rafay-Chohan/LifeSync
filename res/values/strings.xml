@@ -20,4 +20,5 @@
     <string name="priority_1_low_3_high">Priority(1(low)-3(high))</string>
     <string name="change_status">Change Status</string>
     <string name="category">Category</string>
+    <string name="edit">Edit</string>
 </resources>

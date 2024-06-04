@@ -32,16 +32,16 @@ public class addExpense extends Activity {
             @Override
             public void onClick(View v) {
 
-                EditText nameET = (EditText) findViewById(R.id.ExpenseName);
+                EditText nameET =  findViewById(R.id.ExpenseName);
                 String ExpenseNameInput = nameET.getText().toString().trim();
 
-                EditText AmountET = (EditText) findViewById(R.id.ExpenseAmount);
+                EditText AmountET =  findViewById(R.id.ExpenseAmount);
                 String ExpenseAmountInput = AmountET.getText().toString().trim();
 
-                EditText PriorityET = (EditText) findViewById(R.id.ExpensePriority);
+                EditText PriorityET =  findViewById(R.id.ExpensePriority);
                 String ExpensePriorityInput = PriorityET.getText().toString().trim();
 
-                EditText CategoryET = (EditText) findViewById(R.id.ExpenseCategory);
+                EditText CategoryET =  findViewById(R.id.ExpenseCategory);
                 String ExpenseCategoryInput = CategoryET.getText().toString().trim();
 
                 String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());

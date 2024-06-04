@@ -1,4 +1,5 @@
 package com.example.lifesync;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -35,13 +36,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
         }
     }
-
-    /**
-     * Initialize the dataset of the Adapter
-     *
-     * @param dataSet String[] containing the data to populate views to be used
-     * by RecyclerView
-     */
     public TaskListAdapter(ArrayList<com.example.lifesync.TaskModel> taskDataSet) {
         this.taskDataSet = taskDataSet;
     }
@@ -85,7 +79,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.Deletebtn)
+                        if (item.getItemId()==R.id.Editbtn){
+                            Intent intent = new Intent(view.getContext(), EditTaskActivity.class);
+                            intent.putExtra("taskId", taskDataSet.get(position).getTaskId()); // Pass task ID to EditTaskActivity
+                            view.getContext().startActivity(intent);
+                        } else if(item.getItemId()==R.id.Deletebtn)
                         {
                             FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override

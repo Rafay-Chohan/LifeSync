@@ -1,4 +1,5 @@
 package com.example.lifesync;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,7 +66,11 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.Deletebtn)
+                        if(item.getItemId()==R.id.Editbtn){
+                            Intent intent = new Intent(view.getContext(), EditLog.class);
+                            intent.putExtra("logId", logDataSet.get(position).getLogID()); // Pass task ID to EditTaskActivity
+                            view.getContext().startActivity(intent);
+                        }else if(item.getItemId()==R.id.Deletebtn)
                         {
                             FirebaseFirestore.getInstance().collection("Logs").document(logDataSet.get(position).getLogID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
