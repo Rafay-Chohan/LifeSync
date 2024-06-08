@@ -19,6 +19,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,7 +49,7 @@ public class TaskManagerFragment extends Fragment {
         taskRV.setLayoutManager(layoutManager);
         taskRV.setAdapter(taskListAdapter);
 
-        Button b1 = view.findViewById(R.id.btnAddTask);
+        FloatingActionButton b1 = view.findViewById(R.id.btnAddTask);
         mainActivity = (MainActivity)getActivity();
         b1.setOnClickListener(new View.OnClickListener() {
             @Override

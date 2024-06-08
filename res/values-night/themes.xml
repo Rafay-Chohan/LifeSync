@@ -14,7 +14,7 @@
     </style>
     <style name="ScreenBackground" parent="Theme.Material3.DayNight.NoActionBar"><item name="android:background">@color/DarkBackground</item></style><!--Works-->
     <style name="Button"><item name="android:backgroundTint">@color/DarkButton</item><item name="android:textColor">@color/white</item></style><!--Works-->
-    <style name="viewBackground"><item name="android:backgroundTint">@color/DarkViewBackground</item></style><!--Works-->
+    <style name="viewBackground"><item name="android:backgroundTint">@color/DarkViewBackground</item><item name="android:textColor">@color/DarkText</item></style><!--Works-->
     <style name="TextColor"><item name="android:textColor">@color/DarkText</item></style><!--Works-->
     <style name="Imagebg"><item name="android:backgroundTint">@color/DarkViewBackground</item></style><!--Works-->
 </resources>

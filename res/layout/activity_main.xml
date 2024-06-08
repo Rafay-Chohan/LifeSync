@@ -6,19 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     style="@style/ScreenBackground">
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:src="@drawable/refresh"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:id="@+id/refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/refresh"
-        android:background="@drawable/btn"
         style="@style/Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
-    </androidx.appcompat.widget.AppCompatButton>
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="0dp"

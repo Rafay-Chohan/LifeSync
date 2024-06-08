@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -25,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     ActivityMainBinding binding;
-    int refresh;
+    int refresh=1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new TaskManagerFragment());
+        replaceFragment(new BudgetTrackerFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
-        Button btn2=findViewById(R.id.refresh);
+        FloatingActionButton btn2=findViewById(R.id.refresh);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

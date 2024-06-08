@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.lifesync.model.ExpenseModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,9 @@ public class BudgetTrackerFragment extends Fragment {
     MainActivity mainActivity;
     RecyclerView ExpenseRV;
     ExpenseListAdapter expenseListAdapter;
+    int spent=0;
+    int income=10000;
+    int saving=0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "Expense Query";
     ArrayList<ExpenseModel> expenseList = new ArrayList<>();
@@ -39,7 +43,9 @@ public class BudgetTrackerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget_tracker, container, false);
         mainActivity = (MainActivity)getActivity();
-
+        TextView spt=view.findViewById(R.id.Spent);
+        TextView svg=view.findViewById(R.id.Savings);
+        TextView inc=view.findViewById(R.id.Income);
         ExpenseRV = view.findViewById(R.id.expenseListRV);
         expenseListAdapter = new ExpenseListAdapter(expenseList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
@@ -68,12 +74,18 @@ public class BudgetTrackerFragment extends Fragment {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 ExpenseModel ExpenseModel=document.toObject(ExpenseModel.class);
                                 ExpenseModel.setExpId(document.getId());
+                                spent+=ExpenseModel.getAmount();
                                 expenseList.add(ExpenseModel);
                             }
                             expenseListAdapter.notifyDataSetChanged();
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                        saving=income-spent;
+                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+
                     }
                 });
         return view;

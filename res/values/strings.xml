@@ -21,4 +21,8 @@
     <string name="change_status">Change Status</string>
     <string name="category">Category</string>
     <string name="edit">Edit</string>
+    <string name="savings">SAVINGS:</string>
+    <string name="income">INCOME:</string>
+    <string name="spent">SPENT:</string>
+    <string name="expenses">Expenses</string>
 </resources>

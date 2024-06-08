@@ -18,8 +18,66 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/expenseListRV"/>
+            app:layout_constraintBottom_toTopOf="@id/expenseData"/>
+        <LinearLayout
+            android:id="@+id/expenseData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv"
+            app:layout_constraintBottom_toTopOf="@id/exp"
+            android:background="@drawable/item"
+            android:layout_margin="5dp"
+            style="@style/viewBackground"
+            android:gravity="center"
+            android:padding="10dp"
+            >
+                <TextView
+                    android:id="@+id/Income"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextColor"
+                    android:gravity="center"
+                    android:text="@string/income"
+                    android:layout_margin="3dp">
 
+                </TextView>
+                <TextView
+                    android:id="@+id/Spent"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    style="@style/TextColor"
+                    android:gravity="center"
+                    android:layout_margin="3dp"
+                    >
+
+                </TextView>
+                <TextView
+                    android:id="@+id/Savings"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/savings"
+                    style="@style/TextColor"
+                    android:gravity="center"
+                    android:layout_margin="3dp">
+
+                </TextView>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/expenses"
+            android:textColor="@color/black"
+            android:textSize="26dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expenseData"
+            app:layout_constraintBottom_toTopOf="@id/expenseListRV"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/expenseListRV"
             android:layout_width="match_parent"
@@ -27,7 +85,7 @@
             app:layout_constraintBottom_toTopOf="@id/btnAddExpense"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv"
+            app:layout_constraintTop_toBottomOf="@id/exp"
             android:layout_marginBottom="10dp" />
 
         <androidx.appcompat.widget.AppCompatButton
