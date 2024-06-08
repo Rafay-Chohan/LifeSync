@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.lifesync.model.ExpenseModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -52,7 +53,7 @@ public class BudgetTrackerFragment extends Fragment {
         ExpenseRV.setLayoutManager(layoutManager);
         ExpenseRV.setAdapter(expenseListAdapter);
 
-        Button b1 = view.findViewById(R.id.btnAddExpense);
+        FloatingActionButton b1 = view.findViewById(R.id.btnAddExpense);
         mainActivity = (MainActivity)getActivity();
         b1.setOnClickListener(new View.OnClickListener() {
             @Override

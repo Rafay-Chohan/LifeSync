@@ -20,4 +20,8 @@
     <style name="viewBackground"><item name="android:backgroundTint">@color/LightViewBackground</item><item name="android:textColor">@color/LightText</item></style><!--Works-->
     <style name="TextColor"><item name="android:textColor">@color/LightText</item></style><!--Works-->
     <style name="Imagebg"><item name="android:backgroundTint">@color/LightViewBackground</item></style><!--Works-->
+    <style name="roundAddBtn">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

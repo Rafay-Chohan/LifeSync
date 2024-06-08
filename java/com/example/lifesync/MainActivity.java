@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     ActivityMainBinding binding;
-    int refresh=1;
+    int refresh = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        replaceFragment(new BudgetTrackerFragment());
+        replaceFragment(new TaskManagerFragment());
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
