@@ -3,8 +3,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 
@@ -22,10 +25,30 @@ import java.util.Locale;
 public class addExpense extends Activity {
     Button btn,btn2;
     String TAG = "LIFESYNC";
+    String ExpenseCategoryInput;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_expense);
+
+        Spinner spinner = findViewById(R.id.ExpenseCategory);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.category_items, android.R.layout.simple_spinner_item);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item
+                ExpenseCategoryInput = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do something when nothing is selected, if needed
+            }
+        });
 
         btn =(Button)findViewById(R.id.registerExpense);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -40,9 +63,6 @@ public class addExpense extends Activity {
 
                 EditText PriorityET =  findViewById(R.id.ExpensePriority);
                 String ExpensePriorityInput = PriorityET.getText().toString().trim();
-
-                EditText CategoryET =  findViewById(R.id.ExpenseCategory);
-                String ExpenseCategoryInput = CategoryET.getText().toString().trim();
 
                 String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 

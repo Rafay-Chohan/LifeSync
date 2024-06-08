@@ -85,15 +85,14 @@
             app:layout_constraintTop_toBottomOf="@id/ExpenseAmount"
             app:layout_constraintBottom_toTopOf="@id/ExpenseCategory"/>
 
-
-        <EditText
+        <Spinner
             android:id="@+id/ExpenseCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/textview"
             style="@style/viewBackground"
-            android:hint="@string/category"
+            android:prompt="@string/select_category"
             android:textColorHint="@color/DarkBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -25,4 +25,11 @@
     <string name="income">INCOME:</string>
     <string name="spent">SPENT:</string>
     <string name="expenses">Expenses</string>
+    <string name="select_category">Select Category</string>
+    <string-array name="category_items">
+        <item>Other</item>
+        <item>Food</item>
+        <item>Medicine</item>
+        <item>Clothes</item>
+    </string-array>
 </resources>
