@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -45,7 +46,7 @@ public class JournalFragment extends Fragment {
         logRV.setLayoutManager(layoutManager);
         logRV.setAdapter(logListAdapter);
 
-        Button b1 = view.findViewById(R.id.btnAddJournal);
+        FloatingActionButton b1 = view.findViewById(R.id.btnAddJournal);
         mainActivity = (MainActivity)getActivity();
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
