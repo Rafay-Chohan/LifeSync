@@ -60,6 +60,7 @@ public class EditExpense extends Activity {
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -113,7 +114,7 @@ public class EditExpense extends Activity {
         DocumentReference ExpenseRef = db.collection("Expenses").document(expId);
 
         ExpenseRef.get()
-                .addOnSuccessListener(documentSnapshot -> {
+                .addOnSuccessListener(documentSnapshot -> { 
                     if (documentSnapshot.exists()) {
                         ExpenseModel Expense = documentSnapshot.toObject(ExpenseModel.class);
                         if (Expense != null) {
@@ -121,6 +122,15 @@ public class EditExpense extends Activity {
                             AmountEditText.setText(Integer.toString(Expense.getAmount()));
                             spinner.setPrompt(ExpenseCategoryInput);
                             priorityEditText.setText(Integer.toString(Expense.getExpPriority()));
+                            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                                    R.array.category_items, android.R.layout.simple_spinner_item);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+                            String compareValue = Expense.getCategory();
+                            if (compareValue != null) {
+                                int spinnerPosition = adapter.getPosition(compareValue);
+                                spinner.setSelection(spinnerPosition);
+                            }
                         } else {
                             Toast.makeText(EditExpense.this, "Failed to retrieve Expense data!", Toast.LENGTH_SHORT).show();
                         }
