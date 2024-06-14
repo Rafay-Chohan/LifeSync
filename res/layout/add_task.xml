@@ -8,18 +8,20 @@
     tools:context=".addTask"
     style="@style/ScreenBackground">
 
-        <Button
-            android:id="@+id/backAddTask"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/backAddTask"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/btn"
-            style="@style/Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:src="@drawable/sign_out"
+        app:shapeAppearanceOverlay="@style/roundAddBtn"
+        android:id="@+id/backAddTask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/backAddTask"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/btn"
+        style="@style/Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
         <ImageView
             android:id="@+id/icon"
             android:layout_width="150dp"
@@ -97,7 +99,9 @@
             android:textColorHint="@color/DarkBackground"/>
     </LinearLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:src="@drawable/add"
+        app:shapeAppearanceOverlay="@style/roundAddBtn"
         android:id="@+id/registerTask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

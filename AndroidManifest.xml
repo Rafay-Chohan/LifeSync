@@ -31,9 +31,12 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity android:name=".EditTaskActivity" />
-        <activity android:name=".addTask" />
-        <activity android:name=".addLog" />
-        <activity android:name=".addExpense" />
+        <activity android:name=".addTask"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".addLog"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".addExpense"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
     </application>
 
 </manifest>

@@ -15,16 +15,18 @@ import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.lifesync.TaskModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class addTask extends Activity {
-    Button btn,btn2;
+public class addTask extends AppCompatActivity{
+    FloatingActionButton btn,btn2;
     EditText date,time;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
@@ -69,7 +71,7 @@ public class addTask extends Activity {
             }
         });
 
-        btn =(Button)findViewById(R.id.registerTask);
+        btn =(FloatingActionButton) findViewById(R.id.registerTask);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,7 +123,7 @@ public class addTask extends Activity {
                 }
             }
         });
-        btn2 =(Button)findViewById(R.id.backAddTask);
+        btn2 =(FloatingActionButton) findViewById(R.id.backAddTask);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

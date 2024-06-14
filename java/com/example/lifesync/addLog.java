@@ -7,8 +7,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,15 +20,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class addLog extends Activity {
-    Button btn,btn2;
+public class addLog extends AppCompatActivity {
+    FloatingActionButton btn,btn2;
     String TAG = "LIFESYNC";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_log);
 
-        btn =(Button)findViewById(R.id.registerLog);
+        btn =(FloatingActionButton)findViewById(R.id.registerLog);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +65,7 @@ public class addLog extends Activity {
                 }
             }
         });
-        btn2 =(Button)findViewById(R.id.backAddLog);
+        btn2 =(FloatingActionButton) findViewById(R.id.backAddLog);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

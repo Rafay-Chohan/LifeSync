@@ -8,7 +8,9 @@
     android:orientation="vertical"
     style="@style/ScreenBackground">
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:src="@drawable/sign_out"
+            app:shapeAppearanceOverlay="@style/roundAddBtn"
             android:id="@+id/backAddExpense"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +101,9 @@
             app:layout_constraintTop_toBottomOf="@id/ExpensePriority" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:src="@drawable/add"
+            app:shapeAppearanceOverlay="@style/roundAddBtn"
         android:id="@+id/registerExpense"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
