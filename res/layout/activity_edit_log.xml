@@ -7,11 +7,12 @@
     tools:context=".EditLog"
     style="@style/ScreenBackground">
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:src="@drawable/back_btn"
+        app:shapeAppearanceOverlay="@style/roundAddBtn"
         android:id="@+id/backAddLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/backAddTask"
         android:background="@drawable/btn"
         style="@style/Button"
         android:layout_marginTop="10dp"
@@ -60,7 +61,9 @@
             android:layout_margin="10dp"
             android:gravity="top"/>
     </LinearLayout>
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:src="@drawable/add"
+        app:shapeAppearanceOverlay="@style/roundAddBtn"
         android:id="@+id/registerLog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,7 +71,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:text="@string/btn_add"
         android:background="@drawable/btn"
         style="@style/Button"
         app:layout_constraintBottom_toBottomOf="parent"
