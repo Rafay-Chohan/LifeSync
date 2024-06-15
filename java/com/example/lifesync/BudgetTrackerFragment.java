@@ -131,14 +131,16 @@ public class BudgetTrackerFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         EditText incomeSet = dialog.findViewById(R.id.incomeInput);
+                        String incomeInput = incomeSet.getText().toString().trim();
+                        if(!incomeInput.equals("")){
+                            income = (int)Double.parseDouble(incomeInput);
+                            updateIncome(income);
+                            saving = income - spent;
+                            spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                            svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                            inc.setText("INCOME:\nRs."+Integer.toString(income));
 
-                        income = (int)Double.parseDouble(incomeSet.getText().toString().trim());
-                        updateIncome(income);
-
-                        saving = income-spent;
-                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
-                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
-                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+                        }
                         dialog.dismiss();
                     }
                 });
