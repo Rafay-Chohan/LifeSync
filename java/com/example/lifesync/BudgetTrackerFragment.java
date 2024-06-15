@@ -1,5 +1,6 @@
 package com.example.lifesync;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,26 +14,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lifesync.model.ExpenseModel;
+import com.example.lifesync.model.IncomeModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BudgetTrackerFragment extends Fragment {
     MainActivity mainActivity;
     RecyclerView ExpenseRV;
     ExpenseListAdapter expenseListAdapter;
     int spent=0;
-    int income=10000;
+    int income=0;
     int saving=0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "Expense Query";
@@ -82,13 +91,113 @@ public class BudgetTrackerFragment extends Fragment {
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                    }
+                });
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("Incomes")
+                                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                                .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+                                                IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                                                incomeModel.setDocId(document.getId());
+                                                income=incomeModel.getIncome();
+                                            }
+                                        }else {
+                                            Log.d(TAG, "Error getting documents: ", task.getException());
+                                        }
+                                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                                        saving=income-spent;
+                                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+                                    }
+                                });
+
+
+
+        TextView incomeTV = view.findViewById(R.id.Income);
+        incomeTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog=new Dialog(mainActivity);
+                dialog.setContentView(R.layout.add_income_dialog);
+                dialog.show();
+
+                Button btn = dialog.findViewById(R.id.confirmIncome);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText incomeSet=dialog.findViewById(R.id.incomeInput);
+                        income=(int)Double.parseDouble(incomeSet.getText().toString().trim());
+                        updateIncome(income);
+
                         saving=income-spent;
                         svg.setText("SAVING:\nRs."+Integer.toString(saving));
                         inc.setText("INCOME:\nRs."+Integer.toString(income));
-
+                        dialog.dismiss();
                     }
                 });
+
+            }
+        });
+
         return view;
+    }
+
+
+
+    public static void updateIncome(int income){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Incomes")
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+                                IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                                incomeModel.setDocId(document.getId());
+                                updateIncomeDB(income,document.getId());
+                            }
+                        } else {
+
+                            IncomeModel incomeModel = new IncomeModel(FirebaseAuth.getInstance().getUid(), "",income);
+                            db.collection("Incomes").add(incomeModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            Log.d("Income Update", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                            updateIncomeDB(income, documentReference.getId());
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w("Income Update", "Error adding document", e);
+                                        }
+                                    });
+                        }
+                    }
+                });
+    }
+    public static void updateIncomeDB(int income,String docID ){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference ExpenseRef = db.collection("Incomes").document(docID);
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("income", income);
+
+        ExpenseRef.update(updates)
+                .addOnSuccessListener(aVoid -> {
+                    // Update successful
+                })
+                .addOnFailureListener(exception -> {
+                    // Update failed
+                });
     }
 }
