@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -94,9 +95,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user== null){
+        if(user == null){
             Intent intent = new Intent(MainActivity.this, SignIn.class);
             startActivity(intent);
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            moveTaskToBack(true);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

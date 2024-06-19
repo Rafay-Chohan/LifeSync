@@ -125,12 +125,14 @@ public class BudgetTrackerFragment extends Fragment {
                 Dialog dialog = new Dialog(mainActivity);
                 dialog.setContentView(R.layout.add_income_dialog);
                 dialog.show();
-
+                EditText incomeSet = dialog.findViewById(R.id.incomeInput);
+                incomeSet.setText(String.valueOf(income));
+                incomeSet.setSelection(incomeSet.getText().length()); //cursor at end of income
                 Button btn = dialog.findViewById(R.id.confirmIncome);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText incomeSet = dialog.findViewById(R.id.incomeInput);
+
                         String incomeInput = incomeSet.getText().toString().trim();
                         if(!incomeInput.equals("")){
                             income = (int)Double.parseDouble(incomeInput);
