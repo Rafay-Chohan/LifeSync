@@ -53,9 +53,9 @@ public class BudgetTrackerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget_tracker, container, false);
         mainActivity = (MainActivity)getActivity();
-        TextView spt=view.findViewById(R.id.Spent);
-        TextView svg=view.findViewById(R.id.Savings);
-        TextView inc=view.findViewById(R.id.Income);
+        TextView spt = view.findViewById(R.id.Spent);
+        TextView svg = view.findViewById(R.id.Savings);
+        TextView inc = view.findViewById(R.id.Income);
         ExpenseRV = view.findViewById(R.id.expenseListRV);
         expenseListAdapter = new ExpenseListAdapter(expenseList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
@@ -93,51 +93,56 @@ public class BudgetTrackerFragment extends Fragment {
                         }
                     }
                 });
-                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                        db.collection("Incomes")
-                                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                Log.d("Retrieve Income", document.getId() + " => " + document.getData());
-                                                IncomeModel incomeModel = document.toObject(IncomeModel.class);
-                                                incomeModel.setDocId(document.getId());
-                                                income=incomeModel.getIncome();
-                                            }
-                                        }else {
-                                            Log.d(TAG, "Error getting documents: ", task.getException());
-                                        }
-                                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
-                                        saving=income-spent;
-                                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
-                                        inc.setText("INCOME:\nRs."+Integer.toString(income));
-                                    }
-                                });
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Incomes")
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+                                IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                                incomeModel.setDocId(document.getId());
+                                income=incomeModel.getIncome();
+                            }
+                        }else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                        saving=income-spent;
+                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+                    }
+                });
 
 
         TextView incomeTV = view.findViewById(R.id.Income);
         incomeTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog=new Dialog(mainActivity);
+                Dialog dialog = new Dialog(mainActivity);
                 dialog.setContentView(R.layout.add_income_dialog);
                 dialog.show();
-
+                EditText incomeSet = dialog.findViewById(R.id.incomeInput);
+                incomeSet.setText(String.valueOf(income));
+                incomeSet.setSelection(incomeSet.getText().length()); //cursor at end of income
                 Button btn = dialog.findViewById(R.id.confirmIncome);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        EditText incomeSet=dialog.findViewById(R.id.incomeInput);
-                        income=(int)Double.parseDouble(incomeSet.getText().toString().trim());
-                        updateIncome(income);
 
-                        saving=income-spent;
-                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
-                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+                        String incomeInput = incomeSet.getText().toString().trim();
+                        if(!incomeInput.equals("")){
+                            income = (int)Double.parseDouble(incomeInput);
+                            updateIncome(income);
+                            saving = income - spent;
+                            spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                            svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                            inc.setText("INCOME:\nRs."+Integer.toString(income));
+
+                        }
                         dialog.dismiss();
                     }
                 });
@@ -159,28 +164,33 @@ public class BudgetTrackerFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("Retrieve Income", document.getId() + " => " + document.getData());
-                                IncomeModel incomeModel = document.toObject(IncomeModel.class);
-                                incomeModel.setDocId(document.getId());
-                                updateIncomeDB(income,document.getId());
+                            if (task.getResult().isEmpty()) {
+                                // no existing document
+                                IncomeModel incomeModel = new IncomeModel(FirebaseAuth.getInstance().getUid(), "", income);
+                                db.collection("Incomes").add(incomeModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                            @Override
+                                            public void onSuccess(DocumentReference documentReference) {
+                                                Log.d("Income Update", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                                updateIncomeDB(income, documentReference.getId());
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w("Income Update", "Error adding document", e);
+                                            }
+                                        });
+                            } else {
+                                // update existing document
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+                                    IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                                    incomeModel.setDocId(document.getId());
+                                    updateIncomeDB(income, document.getId());
+                                }
                             }
                         } else {
-
-                            IncomeModel incomeModel = new IncomeModel(FirebaseAuth.getInstance().getUid(), "",income);
-                            db.collection("Incomes").add(incomeModel).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(DocumentReference documentReference) {
-                                            Log.d("Income Update", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                            updateIncomeDB(income, documentReference.getId());
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w("Income Update", "Error adding document", e);
-                                        }
-                                    });
+                            Log.d("Income Updation", "Error getting documents: ", task.getException());
                         }
                     }
                 });

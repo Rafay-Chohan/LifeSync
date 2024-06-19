@@ -18,7 +18,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.lifesync.model.ExpenseModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,13 +30,13 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditExpense extends Activity {
+public class EditExpense extends AppCompatActivity {
     
     private EditText titleEditText;
     private EditText AmountEditText;
     private Spinner spinner;
     private EditText priorityEditText;
-    private Button saveButton, btn2;
+    private FloatingActionButton saveButton, btn2;
     String ExpenseCategoryInput;
 
     private String expId; // Store the Expense document ID
@@ -100,7 +103,7 @@ public class EditExpense extends Activity {
                 titleEditText.setError("Expense name can't be empty");
             }
         });
-        btn2 =(Button)findViewById(R.id.backAddExpense);
+        btn2 =(FloatingActionButton)findViewById(R.id.backAddExpense);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

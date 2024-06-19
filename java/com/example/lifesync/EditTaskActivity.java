@@ -16,6 +16,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,7 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EditTaskActivity extends Activity {
+public class EditTaskActivity extends AppCompatActivity {
     EditText date,time;
     DatePickerDialog datePickerDialog;
     TimePickerDialog timePickerDialog;
@@ -35,7 +38,7 @@ public class EditTaskActivity extends Activity {
     private EditText taskDeadlineEditText;
     private EditText taskDeadlineTimeEditText;
     private EditText taskDurationEditText;
-    private Button saveButton, btn2;
+    private FloatingActionButton saveButton, btn2;
 
     private String taskId; // Store the task document ID
     String TAG = "Task Manager Edit Query";
@@ -114,7 +117,7 @@ public class EditTaskActivity extends Activity {
                 titleEditText.setError("Task name can't be empty");
             }
         });
-        btn2 =(Button)findViewById(R.id.backAddTask);
+        btn2 =(FloatingActionButton)findViewById(R.id.backAddTask);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

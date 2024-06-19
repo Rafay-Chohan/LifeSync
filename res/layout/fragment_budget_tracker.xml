@@ -50,6 +50,7 @@
                     android:layout_height="wrap_content"
                     style="@style/TextColor"
                     android:gravity="center"
+                    android:text="@string/spent"
                     android:layout_margin="3dp"
                     >
 

@@ -1,5 +1,6 @@
 package com.example.lifesync;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -7,10 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
-
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.lifesync.databinding.ActivityMainBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,8 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private boolean doubleBackToExitPressedOnce = false;
     ActivityMainBinding binding;
     int refresh = 0;
     @Override
@@ -66,6 +66,27 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    finishAffinity();
+                    return;
+                }
+
+                doubleBackToExitPressedOnce = true;
+                Toast.makeText(MainActivity.this, "Press again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000); // resets after 2 seconds
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
         FloatingActionButton btn2=findViewById(R.id.refresh);
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user== null){
+        if(user == null){
             Intent intent = new Intent(MainActivity.this, SignIn.class);
             startActivity(intent);
         }

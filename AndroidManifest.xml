@@ -13,12 +13,6 @@
         android:theme="@style/Theme.Starting"
         tools:targetApi="31">
         <activity
-            android:name=".EditExpense"
-            android:exported="false" />
-        <activity
-            android:name=".EditLog"
-            android:exported="false" />
-        <activity
             android:name=".SignIn"
             android:exported="true">
             <intent-filter>
@@ -30,13 +24,19 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity android:name=".EditTaskActivity" />
+        <activity android:name=".EditTaskActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".EditLog"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".EditExpense"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".addTask"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".addLog"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity android:name=".addExpense"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+
     </application>
 
 </manifest>
