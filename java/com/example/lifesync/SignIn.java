@@ -1,12 +1,13 @@
 package com.example.lifesync;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class SignIn extends AppCompatActivity {
     private Button textView;
+    private boolean doubleBackToExitPressedOnce = false;
     private GoogleSignInClient client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,26 @@ public class SignIn extends AppCompatActivity {
 
             }
         });
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                if (doubleBackToExitPressedOnce) {
+                    finishAffinity();
+                    return;
+                }
 
+                doubleBackToExitPressedOnce = true;
+                Toast.makeText(SignIn.this, "Press again to exit", Toast.LENGTH_SHORT).show();
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000); // resets after 2 seconds
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     @Override
@@ -84,13 +105,5 @@ public class SignIn extends AppCompatActivity {
             Intent intent = new Intent(SignIn.this, MainActivity.class);
             startActivity(intent);
         }
-    }
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(true);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }
