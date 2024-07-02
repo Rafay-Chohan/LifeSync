@@ -12,6 +12,7 @@
     <color name="LightViewBackground">#f5f5f5</color>
     <color name="LightText">#000000</color>
     <color name="LightImage">#FFFFFF</color>
+    <color name="borderMissed">#D22B2B</color>
 
     <!-- Dark Mode Color Scheme-->
     <color name="DarkBackground">#808080</color>

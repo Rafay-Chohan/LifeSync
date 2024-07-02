@@ -86,6 +86,29 @@ public class BudgetTrackerFragment extends Fragment {
                                 ExpenseModel.setExpId(document.getId());
                                 spent+=ExpenseModel.getAmount();
                                 expenseList.add(ExpenseModel);
+                                db.collection("Incomes")
+                                        .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+                                                        IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                                                        incomeModel.setDocId(document.getId());
+                                                        income=incomeModel.getIncome();
+                                                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                                                        saving=income-spent;
+                                                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                                                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+                                                    }
+                                                }else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+
                             }
                             expenseListAdapter.notifyDataSetChanged();
                         } else {
@@ -93,29 +116,7 @@ public class BudgetTrackerFragment extends Fragment {
                         }
                     }
                 });
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Incomes")
-                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("Retrieve Income", document.getId() + " => " + document.getData());
-                                IncomeModel incomeModel = document.toObject(IncomeModel.class);
-                                incomeModel.setDocId(document.getId());
-                                income=incomeModel.getIncome();
-                            }
-                        }else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
-                        saving=income-spent;
-                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
-                        inc.setText("INCOME:\nRs."+Integer.toString(income));
-                    }
-                });
+
 
 
         TextView incomeTV = view.findViewById(R.id.Income);

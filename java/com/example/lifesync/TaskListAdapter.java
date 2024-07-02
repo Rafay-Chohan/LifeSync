@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHolder> {
 
@@ -67,7 +70,36 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
             viewHolder.taskStatus.setBackgroundResource(R.drawable.statuspending);
         }
         else {
-            viewHolder.taskStatus.setBackgroundColor(Color.parseColor("#FFFFFFFF"));
+            viewHolder.taskStatus.setBackgroundResource(R.drawable.statusmissed);
+        }
+        com.example.lifesync.TaskModel completedTask=taskDataSet.get(position);
+        if(completedTask.getTaskStatus().equalsIgnoreCase("pending")) {
+            String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            String date=completedTask.getTaskDeadline();
+            if(!date.equals(" ")){
+                try {
+                    String[] parts = date.split(" ");
+                    Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(parts[0]);
+                    Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(CurrentDate);
+                    if(date2.after(date1))
+                    {
+                        completedTask.setTaskStatus("Missed");
+                        FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).set(completedTask).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                viewHolder.taskStatus.setBackgroundResource(R.drawable.statusmissed);
+                                viewHolder.taskStatus.setText("Missed");
+                            }
+                        });
+                    }
+                }
+                catch (Exception e) {
+                    int nothing;
+                }
+
+            }
+
+
         }
         viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
             @Override

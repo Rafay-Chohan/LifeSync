@@ -57,7 +57,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         viewHolder.ExpenseName.setText(ExpenseDataSet.get(position).getName());
-        viewHolder.ExpenseAmount.setText(Integer.toString(ExpenseDataSet.get(position).getAmount()));
+        viewHolder.ExpenseAmount.setText("Rs."+Integer.toString(ExpenseDataSet.get(position).getAmount()));
         viewHolder.ExpenseDate.setText(ExpenseDataSet.get(position).getDate());
         viewHolder.ExpenseCategory.setText(ExpenseDataSet.get(position).getCategory());
         viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){

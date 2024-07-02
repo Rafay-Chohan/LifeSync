@@ -136,7 +136,8 @@ public class EditTaskActivity extends AppCompatActivity {
                         com.example.lifesync.TaskModel task = documentSnapshot.toObject(com.example.lifesync.TaskModel.class);
                         if (task != null) {
                             titleEditText.setText(task.getTaskName());
-                            taskPriorityEditText.setText(Integer.toString(task.getTaskPriority()));
+                            if(task.getTaskPriority()!=0)
+                                taskPriorityEditText.setText(Integer.toString(task.getTaskPriority()));
                             String date=task.getTaskDeadline();
                             if(!date.equals(" ")){
                                 String[] parts = date.split(" ");

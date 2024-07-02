@@ -25,17 +25,17 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity android:name=".EditTaskActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Secondary"/>
         <activity android:name=".EditLog"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Secondary"/>
         <activity android:name=".EditExpense"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Secondary"/>
         <activity android:name=".addTask"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Secondary"/>
         <activity android:name=".addLog"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Secondary"/>
         <activity android:name=".addExpense"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+            android:theme="@style/Secondary"/>
 
     </application>
 

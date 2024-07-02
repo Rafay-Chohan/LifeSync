@@ -124,7 +124,8 @@ public class EditExpense extends AppCompatActivity {
                             titleEditText.setText(Expense.getName());
                             AmountEditText.setText(Integer.toString(Expense.getAmount()));
                             spinner.setPrompt(ExpenseCategoryInput);
-                            priorityEditText.setText(Integer.toString(Expense.getExpPriority()));
+                            if(Expense.getExpPriority()!=0)
+                                priorityEditText.setText(Integer.toString(Expense.getExpPriority()));
                             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                                     R.array.category_items, android.R.layout.simple_spinner_item);
                             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
