@@ -7,8 +7,8 @@
     <color name="borderComplete">#019875</color>
     <color name="borderPending">#f58b00</color>
     <!-- Light Mode Color Scheme-->
-    <color name="LightBackground">#4AC18B</color>
-    <color name="LightButton">#E39E00</color>
+    <color name="LightBackground">#D3D3D3</color>
+    <color name="LightButton">#f5f5f5</color>
     <color name="LightViewBackground">#f5f5f5</color>
     <color name="LightText">#000000</color>
     <color name="LightImage">#FFFFFF</color>
