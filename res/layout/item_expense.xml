@@ -16,6 +16,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:layout_margin="7dp"
             >
             <TextView
@@ -33,21 +35,26 @@
 
                 <TextView
                     android:id="@+id/ExpenseAmount"
-                    android:layout_width="135dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Amount:"
                     android:textSize="13dp"
                     style="@style/TextColor"/>
                 <TextView
                     android:id="@+id/ExpenseDate"
-                    android:layout_width="135dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
                     android:layout_height="wrap_content"
                     android:text="Date:"
                     android:textSize="13dp"
                     style="@style/TextColor"/>
                 <TextView
                     android:id="@+id/ExpenseCategory"
-                    android:layout_width="135dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
                     android:layout_height="wrap_content"
                     android:text="Category:"
                     android:textSize="13dp"

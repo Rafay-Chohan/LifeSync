@@ -5,9 +5,9 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.lifesync.BudgetTrackerFragment;
+import com.example.lifesync.ExpenseFragment;
 import com.example.lifesync.JournalFragment;
-import com.example.lifesync.TaskManagerFragment;
+import com.example.lifesync.TaskFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -21,13 +21,13 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         switch (position)
         {
             case 0:
-                return new TaskManagerFragment();
+                return new TaskFragment();
             case 1:
-                return new BudgetTrackerFragment();
+                return new ExpenseFragment();
             case 2:
                 return new JournalFragment();
             default:
-                return new TaskManagerFragment();
+                return new TaskFragment();
         }
     }
 

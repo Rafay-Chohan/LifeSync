@@ -16,6 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:layout_margin="7dp"
             >
             <LinearLayout
@@ -25,16 +28,19 @@
 
                 <TextView
                     android:id="@+id/logName"
-                    android:layout_width="180dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Name"
                     android:textSize="16dp"
                     style="@style/TextColor"/>
                 <TextView
                     android:id="@+id/logDate"
-                    android:layout_width="180dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Date"
+                    android:gravity="right"
                     android:textSize="12dp"
                     style="@style/TextColor"/>
             </LinearLayout>

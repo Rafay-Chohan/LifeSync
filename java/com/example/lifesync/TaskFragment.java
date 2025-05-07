@@ -12,22 +12,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+
 import java.util.ArrayList;
-import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class TaskManagerFragment extends Fragment implements RefreshableFragment {
+public class TaskFragment extends Fragment implements RefreshableFragment {
 
     MainActivity mainActivity;
     RecyclerView taskRV;
@@ -35,12 +32,12 @@ public class TaskManagerFragment extends Fragment implements RefreshableFragment
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "Task Manager Query";
     ArrayList<com.example.lifesync.TaskModel> taskList = new ArrayList<>();
-    public TaskManagerFragment() {
+    public TaskFragment() {
         // Required empty public constructor
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_task_manager, container, false);
+        View view = inflater.inflate(R.layout.fragment_task, container, false);
         mainActivity = (MainActivity)getActivity();
 
         taskRV = view.findViewById(R.id.taskListRV);
