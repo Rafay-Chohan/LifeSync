@@ -30,7 +30,11 @@
     <string-array name="category_items">
         <item>Other</item>
         <item>Food</item>
-        <item>Medicine</item>
+        <item>HealthCare</item>
         <item>Clothes</item>
+        <item>Entertainment</item>
+        <item>Subscriptions</item>
+        <item>Transportation</item>
+        <item>Travel</item>
     </string-array>
 </resources>
