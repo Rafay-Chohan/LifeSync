@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class BudgetTrackerFragment extends Fragment {
+public class BudgetTrackerFragment extends Fragment implements RefreshableFragment{
     MainActivity mainActivity;
     RecyclerView ExpenseRV;
     ExpenseListAdapter expenseListAdapter;
@@ -50,6 +50,9 @@ public class BudgetTrackerFragment extends Fragment {
     int saving=0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "Expense Query";
+    TextView spt;
+    TextView svg;
+    TextView inc;
     ArrayList<ExpenseModel> expenseList = new ArrayList<>();
     public BudgetTrackerFragment() {
         // Required empty public constructor
@@ -58,9 +61,9 @@ public class BudgetTrackerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget_tracker, container, false);
         mainActivity = (MainActivity)getActivity();
-        TextView spt = view.findViewById(R.id.Spent);
-        TextView svg = view.findViewById(R.id.Savings);
-        TextView inc = view.findViewById(R.id.Income);
+        spt = view.findViewById(R.id.Spent);
+        svg = view.findViewById(R.id.Savings);
+        inc = view.findViewById(R.id.Income);
         ExpenseRV = view.findViewById(R.id.expenseListRV);
         expenseListAdapter = new ExpenseListAdapter(expenseList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
@@ -228,4 +231,57 @@ public class BudgetTrackerFragment extends Fragment {
                     // Update failed
                 });
     }
+    @Override
+    public void refreshContent()
+    {
+        expenseList.clear();
+        expenseListAdapter.notifyDataSetChanged();
+
+        db.collection("Expenses")
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                ExpenseModel ExpenseModel=document.toObject(ExpenseModel.class);
+                                ExpenseModel.setExpId(document.getId());
+                                spent+=ExpenseModel.getAmount();
+                                expenseList.add(ExpenseModel);
+                                db.collection("Incomes")
+                                        .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+                                                        IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                                                        incomeModel.setDocId(document.getId());
+                                                        income=incomeModel.getIncome();
+                                                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+                                                        saving=income-spent;
+                                                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
+                                                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+                                                    }
+                                                }else {
+                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                                                }
+                                            }
+                                        });
+
+                            }
+                            expenseListAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
 }

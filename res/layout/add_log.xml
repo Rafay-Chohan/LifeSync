@@ -23,7 +23,7 @@
             android:id="@+id/icon"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:background="@drawable/log_icon"
+            android:background="@drawable/icon_journal"
             android:layout_gravity="center"
             style="@style/Imagebg"
             android:layout_margin="15dp"

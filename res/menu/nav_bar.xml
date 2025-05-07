@@ -5,24 +5,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/task_manager"
-        android:icon="@drawable/tm_icon"
+        android:icon="@drawable/icon_task_manager"
         android:id="@+id/tmItem"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/budget_tracker"
-        android:icon="@drawable/bt_icon"
+        android:icon="@drawable/icon_budget_tracker"
         android:id="@+id/btItem"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="@string/journal"
-        android:icon="@drawable/log_icon"
+        android:icon="@drawable/icon_journal"
         android:id="@+id/jItem"/>
     <item
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:title="Sign Out"
-        android:icon="@drawable/sign_out"
+        android:icon="@drawable/icon_sign_out"
         android:id="@+id/signOut"/>
 </menu>
