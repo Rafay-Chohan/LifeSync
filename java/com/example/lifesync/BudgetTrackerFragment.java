@@ -234,6 +234,8 @@ public class BudgetTrackerFragment extends Fragment implements RefreshableFragme
     @Override
     public void refreshContent()
     {
+        spent=0;
+        saving=0;
         expenseList.clear();
         expenseListAdapter.notifyDataSetChanged();
 
