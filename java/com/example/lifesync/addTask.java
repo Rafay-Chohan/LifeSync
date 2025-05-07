@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,37 +38,49 @@ public class addTask extends AppCompatActivity{
         setContentView(R.layout.add_task);
         date=findViewById(R.id.taskDeadlineDate);
         time=findViewById(R.id.taskDeadlineTime);
-        Calendar calendar=Calendar.getInstance();
-        final int day=calendar.get(Calendar.DAY_OF_MONTH);
-        final int year=calendar.get(Calendar.YEAR);
-        final int month=calendar.get(Calendar.MONTH);
+        Calendar calendar = Calendar.getInstance();
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog=new DatePickerDialog(addTask.this, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        date.setText(year+"-"+(month+1)+"-"+dayOfMonth);
-                    }
-                },year,month,day);
-                datePickerDialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
-                datePickerDialog.show();
+
+                // Date Picker
+                DatePickerDialog datePicker = new DatePickerDialog(
+                        addTask.this,
+                        (view, year, month, day) -> {
+                            calendar.set(year, month, day);
+
+                            // Format: "Jun 15, 2:30 PM"
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                            date.setText(sdf.format(calendar.getTime()));
+                        },
+                        calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)
+                );
+                datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
+                datePicker.show();
             }
 
         });
         time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                timePickerDialog = new TimePickerDialog(addTask.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        if(minutes>10)
-                            time.setText(hourOfDay + ":" + minutes+":00");
-                        else
-                            time.setText(hourOfDay + ":0" + minutes+":00");
-                    }
-                }, 0, 0, false);
-                timePickerDialog.show();
+                // Time Picker (shows after date is selected)
+                TimePickerDialog timePicker = new TimePickerDialog(
+                        addTask.this,
+                        (view1, hour, minute) -> {
+                            calendar.set(Calendar.HOUR_OF_DAY, hour);
+                            calendar.set(Calendar.MINUTE, minute);
+
+                            // Format: "Jun 15, 2:30 PM"
+                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
+                            time.setText(sdf.format(calendar.getTime()));
+                        },
+                        calendar.get(Calendar.HOUR_OF_DAY),
+                        calendar.get(Calendar.MINUTE),
+                        false
+                );
+                timePicker.show();
             }
         });
 
