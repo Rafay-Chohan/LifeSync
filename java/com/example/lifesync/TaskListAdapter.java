@@ -121,7 +121,8 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(view.getContext(),"Task Removed",Toast.LENGTH_SHORT).show();
-                                    viewHolder.containerLL.setVisibility(view.GONE);
+                                    taskDataSet.remove(position);
+                                    notifyItemRemoved(position);
                                 }
                             });
                         } else if(item.getItemId()==R.id.Completebtn) {

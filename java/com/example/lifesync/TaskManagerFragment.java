@@ -27,7 +27,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class TaskManagerFragment extends Fragment {
+public class TaskManagerFragment extends Fragment implements RefreshableFragment {
 
     MainActivity mainActivity;
     RecyclerView taskRV;
@@ -59,6 +59,38 @@ public class TaskManagerFragment extends Fragment {
                 taskListAdapter.notifyDataSetChanged();
             }
         });
+//        db.collection("Tasks")
+//                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+//                .orderBy("taskStatus", Query.Direction.DESCENDING)
+//                .orderBy("taskDeadline", Query.Direction.ASCENDING)
+//                .orderBy("taskPriority", Query.Direction.DESCENDING)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                com.example.lifesync.TaskModel taskModel=document.toObject(com.example.lifesync.TaskModel.class);
+//                                taskModel.setTaskId(document.getId());
+//                                taskList.add(taskModel);
+//                            }
+//                            taskListAdapter.notifyDataSetChanged();
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+        refreshContent();
+        return view;
+    }
+    @Override
+    public void refreshContent() {
+        // Clear existing data
+        taskList.clear();
+        taskListAdapter.notifyDataSetChanged();
+
+        // Fetch fresh data from Firestore
         db.collection("Tasks")
                 .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
                 .orderBy("taskStatus", Query.Direction.DESCENDING)
@@ -71,7 +103,7 @@ public class TaskManagerFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
-                                com.example.lifesync.TaskModel taskModel=document.toObject(com.example.lifesync.TaskModel.class);
+                                com.example.lifesync.TaskModel taskModel = document.toObject(com.example.lifesync.TaskModel.class);
                                 taskModel.setTaskId(document.getId());
                                 taskList.add(taskModel);
                             }
@@ -81,6 +113,5 @@ public class TaskManagerFragment extends Fragment {
                         }
                     }
                 });
-        return view;
     }
 }
