@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.LifeSync" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">@color/LightText</item>
         <item name="colorPrimaryDark">@color/black</item>
         <item name="android:statusBarColor">@color/LightBackground</item>
     </style>
