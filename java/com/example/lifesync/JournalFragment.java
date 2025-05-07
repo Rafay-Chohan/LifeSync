@@ -25,7 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class JournalFragment extends Fragment {
+public class JournalFragment extends Fragment implements RefreshableFragment{
     MainActivity mainActivity;
     RecyclerView logRV;
     LogListAdapter logListAdapter;
@@ -77,4 +77,32 @@ public class JournalFragment extends Fragment {
                 });
         return view;
     }
+
+    @Override
+    public void refreshContent()
+    {
+        logList.clear();
+        logListAdapter.notifyDataSetChanged();
+        db.collection("Logs")
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                .orderBy("date", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                com.example.lifesync.LogModel logModel=document.toObject(com.example.lifesync.LogModel.class);
+                                logModel.setLogID(document.getId());
+                                logList.add(logModel);
+                            }
+                            logListAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
 }

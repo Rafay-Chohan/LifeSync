@@ -76,7 +76,8 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(view.getContext(), "Log Removed", Toast.LENGTH_SHORT).show();
-                                    viewHolder.containerLL.setVisibility(view.GONE);
+                                    logDataSet.remove(position);
+                                    notifyItemRemoved(position);
                                 }
                             });
                         }

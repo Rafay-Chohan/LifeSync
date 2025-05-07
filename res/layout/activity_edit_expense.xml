@@ -24,7 +24,7 @@
         android:id="@+id/icon"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:background="@drawable/bt_icon"
+        android:background="@drawable/icon_budget_tracker"
         android:layout_gravity="center"
         android:layout_margin="15dp"
         style="@style/Imagebg"

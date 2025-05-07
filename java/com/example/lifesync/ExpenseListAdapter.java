@@ -80,7 +80,8 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                                 @Override
                                 public void onSuccess(Void unused) {
                                     Toast.makeText(view.getContext(), "Expense Removed", Toast.LENGTH_SHORT).show();
-                                    viewHolder.containerLL.setVisibility(view.GONE);
+                                    ExpenseDataSet.remove(position);
+                                    notifyItemRemoved(position);
                                 }
                             });
                         }
