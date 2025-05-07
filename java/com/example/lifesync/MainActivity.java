@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
@@ -50,16 +51,25 @@ public class MainActivity extends AppCompatActivity {
                     refresh=2;
                     break;
                 case R.id.signOut:
-                    FirebaseAuth.getInstance().signOut();
-                    GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(MainActivity.this,
-                    new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
-                    googleSignInClient.signOut().addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // Redirect to login activity
-                            startActivity(new Intent(MainActivity.this,SignIn.class));
-                        }
-                    });
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Sign Out")
+                            .setMessage("Are you sure you want to Sign Out?")
+                            .setPositiveButton("Yes", (d, which) -> {
+                                FirebaseAuth.getInstance().signOut();
+                                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(MainActivity.this,
+                                        new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
+                                googleSignInClient.signOut().addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        // Redirect to login activity
+                                        startActivity(new Intent(MainActivity.this,SignIn.class));
+                                    }
+                                });
+
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+
                     //startActivity(new Intent(MainActivity.this,SignIn.class));
                     break;
             }
