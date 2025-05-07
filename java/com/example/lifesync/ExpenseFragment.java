@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lifesync.model.ExpenseModel;
 import com.example.lifesync.model.IncomeModel;
@@ -36,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BudgetTrackerFragment extends Fragment implements RefreshableFragment{
+public class ExpenseFragment extends Fragment implements RefreshableFragment{
     MainActivity mainActivity;
     RecyclerView ExpenseRV;
     ExpenseListAdapter expenseListAdapter;
@@ -49,12 +48,12 @@ public class BudgetTrackerFragment extends Fragment implements RefreshableFragme
     TextView svg;
     TextView inc;
     ArrayList<ExpenseModel> expenseList = new ArrayList<>();
-    public BudgetTrackerFragment() {
+    public ExpenseFragment() {
         // Required empty public constructor
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_budget_tracker, container, false);
+        View view = inflater.inflate(R.layout.fragment_expense, container, false);
         mainActivity = (MainActivity)getActivity();
         spt = view.findViewById(R.id.Spent);
         svg = view.findViewById(R.id.Savings);

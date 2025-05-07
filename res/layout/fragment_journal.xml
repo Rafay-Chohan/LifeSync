@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/tv"
@@ -24,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/logListRV"
-            android:layout_marginBottom="10dp"
+            android:layout_margin="5dp"
             />
     </LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,7 +38,7 @@
         style="@style/Button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
+        android:layout_margin="16dp"
         />
 
 </RelativeLayout>
