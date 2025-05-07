@@ -31,8 +31,13 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class ExpenseFragment extends Fragment implements RefreshableFragment{
@@ -86,7 +91,19 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 ExpenseModel ExpenseModel=document.toObject(ExpenseModel.class);
                                 ExpenseModel.setExpId(document.getId());
-                                spent+=ExpenseModel.getAmount();
+                                try {
+                                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                    Date date = sdf.parse(ExpenseModel.getDate());
+
+                                    // Get current month/year
+                                    Calendar currentCal = Calendar.getInstance();
+                                    Calendar inputCal = Calendar.getInstance();
+                                    inputCal.setTime(date);
+                                    if((inputCal.get(Calendar.YEAR) == currentCal.get(Calendar.YEAR) )&& (inputCal.get(Calendar.MONTH) == currentCal.get(Calendar.MONTH)))
+                                        spent+=ExpenseModel.getAmount();
+                                }catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                                 expenseList.add(ExpenseModel);
                                 db.collection("Incomes")
                                         .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
@@ -216,6 +233,8 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
     @Override
     public void refreshContent()
     {
+        spent=0;
+        saving=0;
         expenseList.clear();
         expenseListAdapter.notifyDataSetChanged();
 
