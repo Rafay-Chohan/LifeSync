@@ -74,14 +74,23 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         }
         com.example.lifesync.TaskModel completedTask=taskDataSet.get(position);
         if(completedTask.getTaskStatus().equalsIgnoreCase("pending")) {
-            String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             String date=completedTask.getTaskDeadline();
+            Date currentTime = new Date();
             if(!date.equals(" ")){
                 try {
                     String[] parts = date.split(" ");
-                    Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(parts[0]);
-                    Date date2=new SimpleDateFormat("yyyy-MM-dd").parse(CurrentDate);
-                    if(date2.after(date1))
+                    Date deadline;
+
+                    // Parse with time if available (format: yyyy-MM-dd HH:mm:ss)
+                    if (parts.length >= 2 && !parts[1].isEmpty()) {
+                        deadline = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+                    }
+                    // Fallback to date-only (set time to 23:59:59 for end-of-day comparison)
+                    else {
+                        String endOfDay = parts[0] + " 23:59:59";
+                        deadline = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endOfDay);
+                    }
+                    if(currentTime.after(deadline))
                     {
                         completedTask.setTaskStatus("Missed");
                         FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).set(completedTask).addOnSuccessListener(new OnSuccessListener<Void>() {

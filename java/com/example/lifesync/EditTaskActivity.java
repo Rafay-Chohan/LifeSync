@@ -28,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class EditTaskActivity extends AppCompatActivity {
     EditText date,time;
@@ -40,7 +41,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private EditText taskDurationEditText;
     private FloatingActionButton saveButton, btn2;
 
-    private String taskId; // Store the task document ID
+    private String taskId,Status; // Store the task document ID
     String TAG = "Task Manager Edit Query";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +137,7 @@ public class EditTaskActivity extends AppCompatActivity {
                         com.example.lifesync.TaskModel task = documentSnapshot.toObject(com.example.lifesync.TaskModel.class);
                         if (task != null) {
                             titleEditText.setText(task.getTaskName());
+                            Status=task.getTaskStatus();
                             if(task.getTaskPriority()!=0)
                                 taskPriorityEditText.setText(Integer.toString(task.getTaskPriority()));
                             String date=task.getTaskDeadline();
@@ -178,6 +180,8 @@ public class EditTaskActivity extends AppCompatActivity {
         updates.put("taskPriority", Prioritytask);
         updates.put("taskDuration", newDuration);
         updates.put("taskDeadline", taskDeadlineInput);
+        if(Status.equals("Missed"))
+            updates.put("taskStatus","Pending");
 
         taskRef.update(updates)
                 .addOnSuccessListener(aVoid -> {
