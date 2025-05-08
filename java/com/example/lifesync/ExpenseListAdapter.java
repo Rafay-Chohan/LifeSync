@@ -1,11 +1,18 @@
 package com.example.lifesync;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,13 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifesync.model.ExpenseModel;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.ViewHolder> {
 
     private ArrayList<ExpenseModel> ExpenseDataSet;
+    Context context;
+    String ExpenseCategoryInput;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView ExpenseName,ExpenseAmount,ExpenseDate,ExpenseCategory;
@@ -56,6 +68,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
+        context = viewHolder.itemView.getContext();
         viewHolder.ExpenseName.setText(ExpenseDataSet.get(position).getName());
         viewHolder.ExpenseAmount.setText("Rs."+Integer.toString(ExpenseDataSet.get(position).getAmount()));
         viewHolder.ExpenseDate.setText(ExpenseDataSet.get(position).getDate());
@@ -71,9 +84,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getItemId()==R.id.Editbtn){
-                            Intent intent = new Intent(view.getContext(), EditExpense.class);
-                            intent.putExtra("expId", ExpenseDataSet.get(position).getExpId()); // Pass task ID to EditTaskActivity
-                            view.getContext().startActivity(intent);
+                            editExpenseDialog(position);
                         }else if(item.getItemId()==R.id.Deletebtn)
                         {
                             FirebaseFirestore.getInstance().collection("Expenses").document(ExpenseDataSet.get(position).getExpId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -91,6 +102,119 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                 return false;
             }
         });
+    }
+
+    private void editExpenseDialog(int position){
+        View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_update_expense, null);
+
+        EditText etName=dialogView.findViewById(R.id.ExpenseName);
+        EditText etAmount=dialogView.findViewById(R.id.ExpenseAmount);
+        EditText etPriority=dialogView.findViewById(R.id.ExpensePriority);
+        Spinner spinner=dialogView.findViewById(R.id.ExpenseCategory);
+
+        populateExpenseData(position,etName,etAmount,spinner,etPriority);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+                R.array.category_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Get the selected item
+                ExpenseCategoryInput = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do something when nothing is selected, if needed
+            }
+        });
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle("Update Expense")
+                .setView(dialogView)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Save", (d, which) -> {
+                    updateExpenseInFirestore(position,etName,etAmount,etPriority);
+                })
+                .create();
+
+
+        // 6. Show the dialog
+        dialog.show();
+    }
+    private void populateExpenseData(int position,EditText etName,EditText etAmount,Spinner spinner,EditText etPriority) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ExpenseRef = db.collection("Expenses").document(ExpenseDataSet.get(position).getExpId());
+
+        ExpenseRef.get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        ExpenseModel Expense = documentSnapshot.toObject(ExpenseModel.class);
+                        if (Expense != null) {
+                            etName.setText(Expense.getName());
+                            etAmount.setText(Integer.toString(Expense.getAmount()));
+                            spinner.setPrompt(ExpenseCategoryInput);
+                            if(Expense.getExpPriority()!=0)
+                                etPriority.setText(Integer.toString(Expense.getExpPriority()));
+                            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+                                    R.array.category_items, android.R.layout.simple_spinner_item);
+                            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            spinner.setAdapter(adapter);
+                            String compareValue = Expense.getCategory();
+                            if (compareValue != null) {
+                                int spinnerPosition = adapter.getPosition(compareValue);
+                                spinner.setSelection(spinnerPosition);
+                            }
+                        } else {
+                            Toast.makeText(context, "Failed to retrieve Expense data!", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.d("Firestore", "No such document");
+                    }
+                })
+                .addOnFailureListener(exception -> {
+                    Log.w("Firestore", "Error getting documents: ", exception);
+                });
+    }
+
+    private void updateExpenseInFirestore(int position,EditText etName,EditText etAmount,EditText etPriority) {
+        String newTitle = etName.getText().toString().trim();
+        String newAmount = etAmount.getText().toString().trim();
+        String newPriority = etPriority.getText().toString().trim();
+        String newCategory = ExpenseCategoryInput;
+
+        int PriorityExpense=0;
+        if(!newPriority.equals(""))
+            PriorityExpense=(int)Double.parseDouble(newPriority);
+        int Amount=(int)Double.parseDouble(newAmount);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference ExpenseRef = db.collection("Expenses").document(ExpenseDataSet.get(position).getExpId());
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", newTitle);
+        updates.put("expPriority", PriorityExpense);
+        updates.put("category", newCategory);
+        updates.put("amount", Amount);
+        ExpenseDataSet.get(position).setExpPriority(PriorityExpense);
+        ExpenseRef.update(updates)
+                .addOnSuccessListener(aVoid -> {
+                    // Update successful
+                    Toast.makeText(context, "Expense updated successfully!", Toast.LENGTH_SHORT).show();
+                    ExpenseDataSet.get(position).setName(newTitle);
+                    ExpenseDataSet.get(position).setCategory(newCategory);
+                    ExpenseDataSet.get(position).setAmount(Amount);
+                    notifyItemChanged(position);
+                })
+                .addOnFailureListener(exception -> {
+                    // Update failed
+                    Toast.makeText(context, "Failed to update Expense!", Toast.LENGTH_SHORT).show();
+                });
+
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
