@@ -24,11 +24,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-        <activity android:name=".EditLog"
-            android:theme="@style/Secondary"/>
         <activity android:name=".EditExpense"
-            android:theme="@style/Secondary"/>
-        <activity android:name=".addLog"
             android:theme="@style/Secondary"/>
         <activity android:name=".addExpense"
             android:theme="@style/Secondary"/>
