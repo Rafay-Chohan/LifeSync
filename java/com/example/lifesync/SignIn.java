@@ -45,7 +45,6 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = client.getSignInIntent();
                 startActivityForResult(i,1234);
-
             }
         });
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {

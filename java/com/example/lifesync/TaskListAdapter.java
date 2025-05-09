@@ -42,12 +42,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
-
             taskName = (TextView) view.findViewById(R.id.taskName);
             taskStatus = (TextView) view.findViewById(R.id.taskStatus);
             taskDeadline = (TextView) view.findViewById(R.id.taskDeadline);
             containerLL=(LinearLayout) view.findViewById(R.id.itemContainer);
-
         }
     }
     public TaskListAdapter(ArrayList<com.example.lifesync.TaskModel> taskDataSet) {
@@ -192,8 +190,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                 })
                 .create();
 
-
-        // 6. Show the dialog
         dialog.show();
     }
     private void showDateTimePicker(EditText targetEditText) {
@@ -288,7 +284,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                     // Update failed
                     Toast.makeText(context, "Failed to update task!", Toast.LENGTH_SHORT).show();
                 });
-
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override

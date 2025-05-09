@@ -29,4 +29,10 @@
     <style name="viewBackground"><item name="android:backgroundTint">@color/DarkViewBackground</item><item name="android:textColor">@color/DarkText</item></style><!--Works-->
     <style name="TextColor"><item name="android:textColor">@color/DarkText</item></style><!--Works-->
     <style name="Imagebg"><item name="android:backgroundTint">@color/DarkViewBackground</item></style><!--Works-->
+    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIndicatorColor">@color/DarkBackground</item>
+        <item name="tabTextColor">@color/DarkViewBackground</item>
+        <item name="tabSelectedTextColor">@color/DarkBackground</item>
+        <item name="android:background">@color/DarkViewBackground</item>
+    </style>
 </resources>

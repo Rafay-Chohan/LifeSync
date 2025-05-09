@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.lifesync.model.ExpenseModel;
@@ -141,8 +142,6 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                 })
                 .create();
 
-
-        // 6. Show the dialog
         dialog.show();
     }
     private void populateExpenseData(int position,EditText etName,EditText etAmount,Spinner spinner,EditText etPriority) {
