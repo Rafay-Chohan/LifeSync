@@ -120,8 +120,6 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                 })
                 .create();
 
-
-        // 6. Show the dialog
         dialog.show();
     }
     private void SaveTask(EditText nameET,EditText deadlineET,EditText priorityET,EditText durationET){

@@ -84,18 +84,13 @@ public class JournalFragment extends Fragment implements RefreshableFragment{
                 })
                 .create();
 
-
-        // 6. Show the dialog
         dialog.show();
     }
     private void SaveLog(EditText etName,EditText etData){
 
         String logNameInput = etName.getText().toString().trim();
-
         String logDataInput = etData.getText().toString().trim();
-
         String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -148,5 +143,4 @@ public class JournalFragment extends Fragment implements RefreshableFragment{
                     }
                 });
     }
-
 }

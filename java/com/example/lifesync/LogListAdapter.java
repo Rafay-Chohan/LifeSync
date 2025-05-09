@@ -111,8 +111,6 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
                 })
                 .create();
 
-
-        // 6. Show the dialog
         dialog.show();
     }
     private void populateLogData(int position,EditText etName,EditText etData) {

@@ -154,7 +154,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                     SaveExpense(etName,etAmount,etPriority,spinner);
                 })
                 .create();
-        // 6. Show the dialog
+
         dialog.show();
     }
 
@@ -162,8 +162,6 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
         String ExpenseNameInput = nameET.getText().toString().trim();
         String ExpensePriorityInput = priorityET.getText().toString().trim();
         String ExpenseAmountInput = amountET.getText().toString().trim();
-
-
 
         String CurrentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -262,56 +260,97 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
     @Override
     public void refreshContent()
     {
-        spent=0;
-        saving=0;
+        spent = 0;
+        saving = 0;
         expenseList.clear();
         expenseListAdapter.notifyDataSetChanged();
+
+//        db.collection("Expenses")
+//                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+//                .orderBy("date", Query.Direction.DESCENDING)
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d(TAG, document.getId() + " => " + document.getData());
+//                                ExpenseModel ExpenseModel=document.toObject(ExpenseModel.class);
+//                                ExpenseModel.setExpId(document.getId());
+//                                spent+=ExpenseModel.getAmount();
+//                                expenseList.add(ExpenseModel);
+//                                db.collection("Incomes")
+//                                        .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+//                                        .get()
+//                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                                            @Override
+//                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                                                if (task.isSuccessful()) {
+//                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                                                        Log.d("Retrieve Income", document.getId() + " => " + document.getData());
+//                                                        IncomeModel incomeModel = document.toObject(IncomeModel.class);
+//                                                        incomeModel.setDocId(document.getId());
+//                                                        income = incomeModel.getIncome();
+//                                                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
+//                                                        saving = income - spent;
+//                                                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
+//                                                        inc.setText("INCOME:\nRs."+Integer.toString(income));
+//                                                    }
+//                                                }else {
+//                                                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                                                }
+//                                            }
+//                                        });
+//                            }
+//                            expenseListAdapter.notifyDataSetChanged();
+//                        } else {
+//                            Log.d(TAG, "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
 
         db.collection("Expenses")
                 .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
                 .orderBy("date", Query.Direction.DESCENDING)
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                ExpenseModel ExpenseModel=document.toObject(ExpenseModel.class);
-                                ExpenseModel.setExpId(document.getId());
-                                spent+=ExpenseModel.getAmount();
-                                expenseList.add(ExpenseModel);
-                                db.collection("Incomes")
-                                        .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        Log.d("Retrieve Income", document.getId() + " => " + document.getData());
-                                                        IncomeModel incomeModel = document.toObject(IncomeModel.class);
-                                                        incomeModel.setDocId(document.getId());
-                                                        income=incomeModel.getIncome();
-                                                        spt.setText("SPENT:\nRs."+Integer.toString(spent));
-                                                        saving=income-spent;
-                                                        svg.setText("SAVING:\nRs."+Integer.toString(saving));
-                                                        inc.setText("INCOME:\nRs."+Integer.toString(income));
-                                                    }
-                                                }else {
-                                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                                }
-                                            }
-                                        });
-
-                            }
-                            expenseListAdapter.notifyDataSetChanged();
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            ExpenseModel expenseModel = document.toObject(ExpenseModel.class);
+                            expenseModel.setExpId(document.getId());
+                            spent += expenseModel.getAmount();
+                            expenseList.add(expenseModel);
                         }
+                        expenseListAdapter.notifyDataSetChanged();
+                        updateStatsUI(); // update after fetching expenses
+                    } else {
+                        Log.d(TAG, "Error getting expenses: ", task.getException());
+                    }
+                });
+
+        // Fetch income (separate query)
+        db.collection("Incomes")
+                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            IncomeModel incomeModel = document.toObject(IncomeModel.class);
+                            incomeModel.setDocId(document.getId());
+                            income = incomeModel.getIncome();
+                        }
+                        updateStatsUI(); // update again after fetching income
+                    } else {
+                        Log.d(TAG, "Error getting income: ", task.getException());
                     }
                 });
     }
 
-
+    // Helper method to update the TextViews
+    private void updateStatsUI() {
+        saving = income - spent;
+        if (spt != null) spt.setText("SPENT:\nRs." + spent);
+        if (svg != null) svg.setText("SAVING:\nRs." + saving);
+        if (inc != null) inc.setText("INCOME:\nRs." + income);
+    }
 }
