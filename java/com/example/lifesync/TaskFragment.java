@@ -187,8 +187,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                         path.addRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW);
                         c.drawPath(path, paint);
 
-                        // Draw static-sized icon centered vertically
-                        Drawable icon = ContextCompat.getDrawable(context, R.drawable.add_icon);
+                        Drawable icon = ContextCompat.getDrawable(context, R.drawable.status_icon);
                         if (icon != null) {
                             int iconLeft = (int) (itemView.getLeft() + margin + (dX - margin - iconSize)/2);
                             int iconTop = (int) (itemView.getTop() + (height - iconSize)/2);
