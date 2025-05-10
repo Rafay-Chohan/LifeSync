@@ -65,34 +65,9 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
         viewHolder.logName.setText(logDataSet.get(position).getName());
         viewHolder.logData.setText(logDataSet.get(position).getData());
         viewHolder.logDate.setText(logDataSet.get(position).getDate());
-        viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view){
-                PopupMenu popupMenu=new PopupMenu(view.getContext(),viewHolder.containerLL);
-                popupMenu.inflate(R.menu.log_menu);
-                popupMenu.show();
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.Editbtn){
-                            editLogDialog(position);
-                        }else if(item.getItemId()==R.id.Deletebtn)
-                        {
-                            FirebaseFirestore.getInstance().collection("Logs").document(logDataSet.get(position).getLogID()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(view.getContext(), "Log Removed", Toast.LENGTH_SHORT).show();
-                                    logDataSet.remove(position);
-                                    notifyItemRemoved(position);
-                                }
-                            });
-                        }
-                        return false;
-                    }
-                });
-                return false;
-            }
+        viewHolder.containerLL.setOnClickListener(v -> {
+            editLogDialog(position);
         });
     }
 

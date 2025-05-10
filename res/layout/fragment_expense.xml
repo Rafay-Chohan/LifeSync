@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:src="@drawable/add"
+        android:src="@drawable/add_icon"
         android:id="@+id/btnAddExpense"
         app:shapeAppearanceOverlay="@style/roundAddBtn"
         android:layout_width="wrap_content"

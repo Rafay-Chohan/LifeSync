@@ -117,59 +117,10 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                 }
             }
         }
-        viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view){
-                PopupMenu popupMenu=new PopupMenu(view.getContext(),viewHolder.containerLL);
-                popupMenu.inflate(R.menu.task_menu);
-                popupMenu.show();
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if (item.getItemId()==R.id.Editbtn){
-                            editTaskDialog(position);
-                        } else if(item.getItemId()==R.id.Deletebtn)
-                        {
-                            FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(view.getContext(),"Task Removed",Toast.LENGTH_SHORT).show();
-                                    taskDataSet.remove(position);
-                                    notifyItemRemoved(position);
-                                }
-                            });
-                        } else if(item.getItemId()==R.id.Completebtn) {
-                            com.example.lifesync.TaskModel completedTask=taskDataSet.get(position);
-                            if(!(completedTask.getTaskStatus().equalsIgnoreCase("completed"))) {
-                                completedTask.setTaskStatus("Completed");
-                                FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).set(completedTask).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(view.getContext(), "Task Completed", Toast.LENGTH_SHORT).show();
-                                        viewHolder.taskStatus.setBackgroundResource(R.drawable.statuscomp);
-                                        viewHolder.taskStatus.setText("Completed");
-                                    }
-                                });
-                            }else if(!(completedTask.getTaskStatus().equalsIgnoreCase("pending"))) {
-                                completedTask.setTaskStatus("Pending");
-                                FirebaseFirestore.getInstance().collection("Tasks").document(taskDataSet.get(position).getTaskId()).set(completedTask).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(view.getContext(), "Task Pending", Toast.LENGTH_SHORT).show();
-                                        viewHolder.taskStatus.setBackgroundResource(R.drawable.statuspending);
-                                        viewHolder.taskStatus.setText("Pending");
-                                    }
-                                });
-                            }
-                        }
-                        return false;
-                    }
-                });
-                return false;
-            }
+        viewHolder.containerLL.setOnClickListener(v -> {
+            editTaskDialog(position);
         });
-
     }
     private void editTaskDialog(int position){
         View dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_add_update_task, null);
