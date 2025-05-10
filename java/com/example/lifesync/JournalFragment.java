@@ -3,14 +3,23 @@ package com.example.lifesync;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.lifesync.model.ExpenseModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -67,6 +77,124 @@ public class JournalFragment extends Fragment implements RefreshableFragment{
         mainActivity = (MainActivity)getActivity();
         b1.setOnClickListener(v -> addLogDialog());
         refreshContent();
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            private static final float SWIPE_THRESHOLD = 0.25f;
+            private static final float MAX_SWIPE_DISTANCE = 0.3f;
+            private static final float CORNER_RADIUS = 16f;
+
+            @Override
+            public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+                return SWIPE_THRESHOLD;
+            }
+
+            @Override
+            public float getSwipeEscapeVelocity(float defaultValue) {
+                return defaultValue * 10;
+            }
+
+            @Override
+            public long getAnimationDuration(@NonNull RecyclerView recyclerView, int animationType, float animateDx, float animateDy) {
+                return animationType == ItemTouchHelper.ANIMATION_TYPE_SWIPE_CANCEL ? 200 : super.getAnimationDuration(recyclerView, animationType, animateDx, animateDy);
+            }
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+
+                // Show delete confirmation dialog
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Expense")
+                        .setMessage("Are you sure you want to delete this expense?")
+                        .setPositiveButton("Delete", (dialog, which) -> {
+                            com.example.lifesync.LogModel log = logList.get(position);
+                            db.collection("Expenses").document(log.getLogID())
+                                    .delete()
+                                    .addOnSuccessListener(unused -> {
+                                        logList.remove(position);
+                                        logListAdapter.notifyItemRemoved(position);
+                                        Toast.makeText(context, "Expense deleted", Toast.LENGTH_SHORT).show();
+                                    });
+                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> {
+                            logListAdapter.notifyItemChanged(position); // reset swipe
+                        })
+                        .setCancelable(false)
+                        .show();
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                    int actionState, boolean isCurrentlyActive) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    View itemView = viewHolder.itemView;
+                    float width = itemView.getWidth();
+                    float height = itemView.getHeight();
+
+                    // Convert dp to pixels
+                    float margin = TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            8f,
+                            getResources().getDisplayMetrics()
+                    );
+                    int iconSize = (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            24f,
+                            getResources().getDisplayMetrics()
+                    );
+
+                    // Limit swipe distance
+                    float threshold = width * MAX_SWIPE_DISTANCE;
+                    if (Math.abs(dX) > threshold) {
+                        dX = dX > 0 ? threshold : -threshold;
+                    }
+
+                    Paint paint = new Paint();
+                    paint.setAntiAlias(true);
+                    Path path = new Path();
+
+                    // Only left swipe for delete
+                    if (dX < 0) {
+                        // Draw background with margin and rounded corners
+                        paint.setColor(Color.parseColor("#F44336"));
+                        RectF rect = new RectF(
+                                itemView.getRight() + dX + margin,
+                                itemView.getTop() ,
+                                itemView.getRight() - margin,
+                                itemView.getBottom()
+                        );
+                        path.addRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW);
+                        c.drawPath(path, paint);
+
+                        // Draw static-sized delete icon
+                        Drawable icon = ContextCompat.getDrawable(context, R.drawable.delete_icon);
+                        if (icon != null) {
+                            int iconRight = (int) (itemView.getRight() - margin - (-dX - margin - iconSize)/2);
+                            int iconTop = (int) (itemView.getTop() + (height - iconSize)/2);
+                            icon.setBounds(
+                                    iconRight - iconSize,
+                                    iconTop,
+                                    iconRight,
+                                    iconTop + iconSize
+                            );
+                            icon.draw(c);
+                        }
+                    }
+
+                    // Draw item on top
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                } else {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                }
+            }
+        }).attachToRecyclerView(logRV);
+
         return view;
     }
     private void addLogDialog(){

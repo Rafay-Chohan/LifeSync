@@ -74,34 +74,9 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         viewHolder.ExpenseAmount.setText("Rs."+Integer.toString(ExpenseDataSet.get(position).getAmount()));
         viewHolder.ExpenseDate.setText(ExpenseDataSet.get(position).getDate());
         viewHolder.ExpenseCategory.setText(ExpenseDataSet.get(position).getCategory());
-        viewHolder.containerLL.setOnLongClickListener(new View.OnLongClickListener(){
-            @Override
-            public boolean onLongClick(View view){
-                PopupMenu popupMenu=new PopupMenu(view.getContext(),viewHolder.containerLL);
-                popupMenu.inflate(R.menu.log_menu);
-                popupMenu.show();
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.Editbtn){
-                            editExpenseDialog(position);
-                        }else if(item.getItemId()==R.id.Deletebtn)
-                        {
-                            FirebaseFirestore.getInstance().collection("Expenses").document(ExpenseDataSet.get(position).getExpId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(view.getContext(), "Expense Removed", Toast.LENGTH_SHORT).show();
-                                    ExpenseDataSet.remove(position);
-                                    notifyItemRemoved(position);
-                                }
-                            });
-                        }
-                        return false;
-                    }
-                });
-                return false;
-            }
+        viewHolder.containerLL.setOnClickListener(v -> {
+            editExpenseDialog(position);
         });
     }
 
