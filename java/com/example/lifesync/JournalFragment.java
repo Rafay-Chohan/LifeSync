@@ -112,13 +112,13 @@ public class JournalFragment extends Fragment implements RefreshableFragment{
                         .setTitle("Delete Expense")
                         .setMessage("Are you sure you want to delete this expense?")
                         .setPositiveButton("Delete", (dialog, which) -> {
-                            com.example.lifesync.LogModel log = logList.get(position);
-                            db.collection("Expenses").document(log.getLogID())
+                            String logId = logList.get(position).getLogID();
+                            db.collection("Logs").document(logId)
                                     .delete()
                                     .addOnSuccessListener(unused -> {
                                         logList.remove(position);
                                         logListAdapter.notifyItemRemoved(position);
-                                        Toast.makeText(context, "Expense deleted", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(context, "Log deleted", Toast.LENGTH_SHORT).show();
                                     });
                         })
                         .setNegativeButton("Cancel", (dialog, which) -> {
