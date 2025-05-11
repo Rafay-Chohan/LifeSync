@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -49,8 +50,10 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
 
     MainActivity mainActivity;
     RecyclerView taskRV;
+    TextView tvPendingTasks;
     TaskListAdapter taskListAdapter;
     Context context;
+    int pendingTaskCount = 0;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "Task Manager Query";
     ArrayList<com.example.lifesync.TaskModel> taskList = new ArrayList<>();
@@ -69,6 +72,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
         mainActivity = (MainActivity)getActivity();
 
         taskRV = view.findViewById(R.id.taskListRV);
+        tvPendingTasks = view.findViewById(R.id.tvPendingTasks);
         taskListAdapter = new TaskListAdapter(taskList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
         taskRV.setLayoutManager(layoutManager);
@@ -129,7 +133,8 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                 } else if (direction == ItemTouchHelper.RIGHT) {
                     // Toggle task status
                     com.example.lifesync.TaskModel task = taskList.get(position);
-                    String newStatus = task.getTaskStatus().equalsIgnoreCase("Completed") ? "Pending" : "Completed";
+                    String oldStatus = task.getTaskStatus();
+                    String newStatus = oldStatus.equalsIgnoreCase("Completed") ? "Pending" : "Completed";
                     task.setTaskStatus(newStatus);
 
                     FirebaseFirestore.getInstance().collection("Tasks").document(task.getTaskId())
@@ -137,6 +142,14 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                             .addOnSuccessListener(unused -> {
                                 taskListAdapter.notifyItemChanged(position);
                                 Toast.makeText(context, "Task marked as " + newStatus, Toast.LENGTH_SHORT).show();
+
+                                if (oldStatus.equalsIgnoreCase("Completed") && newStatus.equalsIgnoreCase("Pending")) {
+                                    pendingTaskCount++;
+                                } else if ((oldStatus.equalsIgnoreCase("Pending") || oldStatus.equalsIgnoreCase("Missed")) && newStatus.equalsIgnoreCase("Completed")) {
+                                    pendingTaskCount--;
+                                }
+
+                                tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);
                             });
                 }
 
@@ -187,8 +200,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                         path.addRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW);
                         c.drawPath(path, paint);
 
-                        // Draw static-sized icon centered vertically
-                        Drawable icon = ContextCompat.getDrawable(context, R.drawable.add_icon);
+                        Drawable icon = ContextCompat.getDrawable(context, R.drawable.status_icon);
                         if (icon != null) {
                             int iconLeft = (int) (itemView.getLeft() + margin + (dX - margin - iconSize)/2);
                             int iconTop = (int) (itemView.getTop() + (height - iconSize)/2);
@@ -255,18 +267,29 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
+                            pendingTaskCount = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 com.example.lifesync.TaskModel taskModel = document.toObject(com.example.lifesync.TaskModel.class);
                                 taskModel.setTaskId(document.getId());
                                 taskList.add(taskModel);
+
+                                if (taskModel.getTaskStatus().equals("Pending")) {
+                                    pendingTaskCount++;
+                                }
                             }
                             taskListAdapter.notifyDataSetChanged();
+
+                            tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);
+
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
+
+        // Set the number of pending tasks
+
     }
     private void addTaskDialog(){
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_update_task, null);

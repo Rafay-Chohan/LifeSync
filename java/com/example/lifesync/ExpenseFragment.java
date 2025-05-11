@@ -280,7 +280,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {
-                    SaveExpense(etName,etAmount,etPriority,spinner);
+                    SaveExpense(etName, etAmount, etPriority, spinner);
                 })
                 .create();
 
