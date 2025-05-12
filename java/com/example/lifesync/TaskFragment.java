@@ -117,7 +117,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                             .setMessage("Are you sure you want to delete this task?")
                             .setPositiveButton("Delete", (dialog, which) -> {
                                 String taskId = taskList.get(position).getTaskId();
-                                FirebaseFirestore.getInstance().collection("Tasks").document(taskId)
+                                db.collection("Tasks").document(taskId)
                                         .delete()
                                         .addOnSuccessListener(unused -> {
                                             taskList.remove(position);
@@ -137,7 +137,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                     String newStatus = oldStatus.equalsIgnoreCase("Completed") ? "Pending" : "Completed";
                     task.setTaskStatus(newStatus);
 
-                    FirebaseFirestore.getInstance().collection("Tasks").document(task.getTaskId())
+                    db.collection("Tasks").document(task.getTaskId())
                             .set(task)
                             .addOnSuccessListener(unused -> {
                                 taskListAdapter.notifyItemChanged(position);
@@ -255,7 +255,6 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
     public void refreshContent() {
         // Clear existing data
         taskList.clear();
-        taskListAdapter.notifyDataSetChanged();
 
         // Fetch fresh data from Firestore
         db.collection("Tasks")
@@ -318,8 +317,6 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
         String taskDeadlineInput=deadlineET.getText().toString().trim();
         String taskPriorityInput = priorityET.getText().toString().trim();
         String taskDurationInput = durationET.getText().toString().trim();
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         if(!taskNameInput.equals("")) {
             int Prioritytask=0;
