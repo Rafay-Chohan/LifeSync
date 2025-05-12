@@ -28,6 +28,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -100,7 +102,6 @@ public class NotificationHelper {
         notificationManager.notify(notificationId, builder.build());
     }
     public void getNotification()  {
-        try{
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 23);  // 11 PM (23 in 24-hour format)
@@ -109,44 +110,39 @@ public class NotificationHelper {
         calendar.set(Calendar.MILLISECOND, 0);
         String today = sdf.format(calendar.getTime());
 
-        Date date1 = sdf.parse(today);
-
-        FirebaseFirestore.getInstance().collection("Tasks")
-                .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
-                .orderBy("taskStatus", Query.Direction.DESCENDING)
-                .orderBy("taskDeadline", Query.Direction.ASCENDING)
-                .orderBy("taskPriority", Query.Direction.DESCENDING)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", document.getId() + " => " + document.getData());
-                                com.example.lifesync.TaskModel taskModel = document.toObject(com.example.lifesync.TaskModel.class);
-                                taskModel.setTaskId(document.getId());
-                                if (taskModel.getTaskStatus().equals("Pending")) {
-                                    if(!taskModel.getTaskDeadline().isEmpty()) {
-                                        Date date2 = null;
-                                        try {
-                                            date2 = sdf.parse(taskModel.getTaskDeadline());
-                                        } catch (ParseException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                        if (date2.before(date1)) {
-                                            Log.d("Notificationhehe", "task added");
-                                            showTaskNotification(taskModel.getTaskName(), taskModel.getTaskDeadline());
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime date1 = LocalDateTime.parse(today, formatter);
+            FirebaseFirestore.getInstance().collection("Tasks")
+                    .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
+                    .orderBy("taskStatus", Query.Direction.DESCENDING)
+                    .orderBy("taskDeadline", Query.Direction.ASCENDING)
+                    .orderBy("taskPriority", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Log.d("TAG", document.getId() + " => " + document.getData());
+                                    com.example.lifesync.TaskModel taskModel = document.toObject(com.example.lifesync.TaskModel.class);
+                                    taskModel.setTaskId(document.getId());
+                                    if (taskModel.getTaskStatus().equals("Pending")) {
+                                        if (!taskModel.getTaskDeadline().isEmpty()) {
+                                            LocalDateTime date2 = LocalDateTime.parse(taskModel.getTaskDeadline(), formatter);
+                                            if (date2.isBefore(date1)) {
+                                                Log.d("Notificationhehe", "task added");
+                                                showTaskNotification(taskModel.getTaskName(), taskModel.getTaskDeadline());
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                Log.d("TAG", "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            Log.d("TAG", "Error getting documents: ", task.getException());
                         }
-                    }
-                });
-        } catch (ParseException e) {
-            e.printStackTrace();
+                    });
         }
+
     }
 }

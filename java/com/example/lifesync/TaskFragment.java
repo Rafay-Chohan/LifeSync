@@ -3,6 +3,8 @@ package com.example.lifesync;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
@@ -255,6 +257,10 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
     public void refreshContent() {
         // Clear existing data
         taskList.clear();
+
+        AppWidgetManager manager = AppWidgetManager.getInstance(requireContext());
+        ComponentName widget = new ComponentName(requireContext(), TaskWidget.class);
+        manager.notifyAppWidgetViewDataChanged(manager.getAppWidgetIds(widget), R.id.lvWidgetTasks);
 
         // Fetch fresh data from Firestore
         db.collection("Tasks")
