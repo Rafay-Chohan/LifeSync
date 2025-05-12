@@ -403,7 +403,19 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             ExpenseModel expenseModel = document.toObject(ExpenseModel.class);
                             expenseModel.setExpId(document.getId());
-                            spent += expenseModel.getAmount();
+                            try {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                                Date date = sdf.parse(expenseModel.getDate());
+
+                                // Get current month/year
+                                Calendar currentCal = Calendar.getInstance();
+                                Calendar inputCal = Calendar.getInstance();
+                                inputCal.setTime(date);
+                                if((inputCal.get(Calendar.YEAR) == currentCal.get(Calendar.YEAR) )&& (inputCal.get(Calendar.MONTH) == currentCal.get(Calendar.MONTH)))
+                                    spent+=expenseModel.getAmount();
+                            }catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                             expenseList.add(expenseModel);
                         }
                         expenseListAdapter.notifyDataSetChanged();
