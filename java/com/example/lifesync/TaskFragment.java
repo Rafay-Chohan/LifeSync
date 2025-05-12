@@ -146,7 +146,8 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                                 if (oldStatus.equalsIgnoreCase("Completed") && newStatus.equalsIgnoreCase("Pending")) {
                                     pendingTaskCount++;
                                 } else if ((oldStatus.equalsIgnoreCase("Pending") || oldStatus.equalsIgnoreCase("Missed")) && newStatus.equalsIgnoreCase("Completed")) {
-                                    pendingTaskCount--;
+                                    if(pendingTaskCount!=0)
+                                        pendingTaskCount--;
                                 }
 
                                 tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);

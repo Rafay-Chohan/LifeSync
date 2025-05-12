@@ -109,8 +109,8 @@ public class JournalFragment extends Fragment implements RefreshableFragment{
 
                 // Show delete confirmation dialog
                 new AlertDialog.Builder(context)
-                        .setTitle("Delete Expense")
-                        .setMessage("Are you sure you want to delete this expense?")
+                        .setTitle("Delete Log")
+                        .setMessage("Are you sure you want to delete this Log?")
                         .setPositiveButton("Delete", (dialog, which) -> {
                             String logId = logList.get(position).getLogID();
                             db.collection("Logs").document(logId)
