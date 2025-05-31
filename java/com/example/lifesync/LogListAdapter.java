@@ -141,7 +141,7 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
                     });
         }
         else {
-            Toast.makeText((context), "Task name can't be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText((context), "Log name can't be empty", Toast.LENGTH_SHORT).show();
         }
 
     }

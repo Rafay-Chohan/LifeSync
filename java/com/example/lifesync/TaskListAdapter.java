@@ -240,7 +240,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
                     })
                     .addOnFailureListener(exception -> {
                         // Update failed
-                        Toast.makeText(context, "Failed to update task!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Failed to update Task!", Toast.LENGTH_SHORT).show();
                     });
         }
         else {

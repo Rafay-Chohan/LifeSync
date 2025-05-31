@@ -195,7 +195,7 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
                     });
         }
         else {
-            Toast.makeText(context, "Task name can't be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Expense name can't be empty", Toast.LENGTH_SHORT).show();
         }
 
     }
