@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_margin="5dp"
     android:id="@+id/LogContainer"
     android:background="@drawable/item">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="15dp"
+        android:layout_margin="5dp"
         style="@style/viewBackground">
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Name"
-                    android:textSize="16dp"
+                    android:textSize="18dp"
                     style="@style/TextColor"/>
                 <TextView
                     android:id="@+id/logDate"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:text="Date"
                     android:gravity="right"
-                    android:textSize="12dp"
+                    android:textSize="14dp"
                     style="@style/TextColor"/>
             </LinearLayout>
             <TextView

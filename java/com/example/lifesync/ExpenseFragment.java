@@ -192,7 +192,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                     // Convert dp to pixels
                     float margin = TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP,
-                            8f,
+                            6f,
                             getResources().getDisplayMetrics()
                     );
                     int iconSize = (int) TypedValue.applyDimension(
@@ -217,9 +217,9 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                         paint.setColor(Color.parseColor("#F44336"));
                         RectF rect = new RectF(
                                 itemView.getRight() + dX + margin,
-                                itemView.getTop(),
+                                itemView.getTop() + margin,
                                 itemView.getRight() - margin,
-                                itemView.getBottom()
+                                itemView.getBottom() - margin
                         );
                         path.addRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW);
                         c.drawPath(path, paint);
@@ -275,8 +275,13 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                 // Do something when nothing is selected, if needed
             }
         });
+
+        View titleView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Add New Expense");
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add New Expense")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {

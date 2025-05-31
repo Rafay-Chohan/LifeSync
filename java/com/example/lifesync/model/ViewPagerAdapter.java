@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.lifesync.ExpenseFragment;
 import com.example.lifesync.JournalFragment;
+import com.example.lifesync.ProfileFragment;
 import com.example.lifesync.TaskFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
@@ -26,6 +27,8 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
                 return new ExpenseFragment();
             case 2:
                 return new JournalFragment();
+            case 3:
+                return new ProfileFragment();
             default:
                 return new TaskFragment();
         }
@@ -33,7 +36,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 4;
     }
 
 }
