@@ -164,34 +164,39 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
         String newPriority = etPriority.getText().toString().trim();
         String newCategory = ExpenseCategoryInput;
 
-        int PriorityExpense=0;
-        if(!newPriority.equals(""))
-            PriorityExpense=(int)Double.parseDouble(newPriority);
-        int Amount=(int)Double.parseDouble(newAmount);
+        if(!newTitle.equals("")) {
+            int PriorityExpense=0;
+            if(!newPriority.equals(""))
+                PriorityExpense=(int)Double.parseDouble(newPriority);
+            int Amount=(int)Double.parseDouble(newAmount);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        DocumentReference ExpenseRef = db.collection("Expenses").document(ExpenseDataSet.get(position).getExpId());
+            DocumentReference ExpenseRef = db.collection("Expenses").document(ExpenseDataSet.get(position).getExpId());
 
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("name", newTitle);
-        updates.put("expPriority", PriorityExpense);
-        updates.put("category", newCategory);
-        updates.put("amount", Amount);
-        ExpenseDataSet.get(position).setExpPriority(PriorityExpense);
-        ExpenseRef.update(updates)
-                .addOnSuccessListener(aVoid -> {
-                    // Update successful
-                    Toast.makeText(context, "Expense updated successfully!", Toast.LENGTH_SHORT).show();
-                    ExpenseDataSet.get(position).setName(newTitle);
-                    ExpenseDataSet.get(position).setCategory(newCategory);
-                    ExpenseDataSet.get(position).setAmount(Amount);
-                    notifyItemChanged(position);
-                })
-                .addOnFailureListener(exception -> {
-                    // Update failed
-                    Toast.makeText(context, "Failed to update Expense!", Toast.LENGTH_SHORT).show();
-                });
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("name", newTitle);
+            updates.put("expPriority", PriorityExpense);
+            updates.put("category", newCategory);
+            updates.put("amount", Amount);
+            ExpenseDataSet.get(position).setExpPriority(PriorityExpense);
+            ExpenseRef.update(updates)
+                    .addOnSuccessListener(aVoid -> {
+                        // Update successful
+                        Toast.makeText(context, "Expense updated successfully!", Toast.LENGTH_SHORT).show();
+                        ExpenseDataSet.get(position).setName(newTitle);
+                        ExpenseDataSet.get(position).setCategory(newCategory);
+                        ExpenseDataSet.get(position).setAmount(Amount);
+                        notifyItemChanged(position);
+                    })
+                    .addOnFailureListener(exception -> {
+                        // Update failed
+                        Toast.makeText(context, "Failed to update Expense!", Toast.LENGTH_SHORT).show();
+                    });
+        }
+        else {
+            Toast.makeText(context, "Task name can't be empty", Toast.LENGTH_SHORT).show();
+        }
 
     }
     // Return the size of your dataset (invoked by the layout manager)

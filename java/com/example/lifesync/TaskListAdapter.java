@@ -209,37 +209,43 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
     private void updateTaskInFirestore(int position,EditText nameET,EditText deadlineET,EditText priorityET,EditText durationET) {
         String newTitle = nameET.getText().toString().trim();
         String newPriority = priorityET.getText().toString().trim();
-        int Prioritytask=0;
-        if(!newPriority.equals(""))
-            Prioritytask=(int)Double.parseDouble(newPriority);
-        String newDuration = durationET.getText().toString().trim();
-        String taskDeadlineInput=deadlineET.getText().toString().trim();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference taskRef = db.collection("Tasks").document(taskDataSet.get(position).getTaskId());
+        if(!newTitle.equals("")) {
+            int Prioritytask=0;
+            if(!newPriority.equals(""))
+                Prioritytask=(int)Double.parseDouble(newPriority);
+            String newDuration = durationET.getText().toString().trim();
+            String taskDeadlineInput=deadlineET.getText().toString().trim();
 
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("taskName", newTitle);
-        updates.put("taskPriority", Prioritytask);
-        taskDataSet.get(position).setTaskPriority(Prioritytask);
-        updates.put("taskDuration", newDuration);
-        updates.put("taskDeadline", taskDeadlineInput);
-        updates.put("taskStatus","Pending");
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference taskRef = db.collection("Tasks").document(taskDataSet.get(position).getTaskId());
 
-        taskRef.update(updates)
-                .addOnSuccessListener(aVoid -> {
-                    // Update successful
-                    taskDataSet.get(position).setTaskName(newTitle);
-                    taskDataSet.get(position).setTaskDuration(newDuration);
-                    taskDataSet.get(position).setTaskDeadline(taskDeadlineInput);
-                    taskDataSet.get(position).setTaskStatus("Pending");
-                    Toast.makeText(context, "Task updated successfully!", Toast.LENGTH_SHORT).show();
-                    notifyItemChanged(position);
-                })
-                .addOnFailureListener(exception -> {
-                    // Update failed
-                    Toast.makeText(context, "Failed to update task!", Toast.LENGTH_SHORT).show();
-                });
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("taskName", newTitle);
+            updates.put("taskPriority", Prioritytask);
+            taskDataSet.get(position).setTaskPriority(Prioritytask);
+            updates.put("taskDuration", newDuration);
+            updates.put("taskDeadline", taskDeadlineInput);
+            updates.put("taskStatus","Pending");
+
+            taskRef.update(updates)
+                    .addOnSuccessListener(aVoid -> {
+                        // Update successful
+                        taskDataSet.get(position).setTaskName(newTitle);
+                        taskDataSet.get(position).setTaskDuration(newDuration);
+                        taskDataSet.get(position).setTaskDeadline(taskDeadlineInput);
+                        taskDataSet.get(position).setTaskStatus("Pending");
+                        Toast.makeText(context, "Task updated successfully!", Toast.LENGTH_SHORT).show();
+                        notifyItemChanged(position);
+                    })
+                    .addOnFailureListener(exception -> {
+                        // Update failed
+                        Toast.makeText(context, "Failed to update task!", Toast.LENGTH_SHORT).show();
+                    });
+        }
+        else {
+            Toast.makeText(context, "Task name can't be empty", Toast.LENGTH_SHORT).show();
+        }
     }
     // Return the size of your dataset (invoked by the layout manager)
     @Override
