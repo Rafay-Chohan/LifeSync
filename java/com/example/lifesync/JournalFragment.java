@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lifesync.model.ExpenseModel;
@@ -203,8 +204,12 @@ public class JournalFragment extends Fragment implements RefreshableFragment{
         EditText etName=dialogView.findViewById(R.id.logName);
         EditText etData=dialogView.findViewById(R.id.logData);
 
+        View titleView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Add New Log");
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add New Log")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {

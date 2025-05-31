@@ -307,8 +307,12 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
 
         etDeadline.setOnClickListener(v -> showDateTimePicker(etDeadline));
 
+        View titleView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Add New Task");
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add New Task")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {

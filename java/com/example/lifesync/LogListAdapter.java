@@ -77,8 +77,13 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
         EditText etName=dialogView.findViewById(R.id.logName);
         EditText etData=dialogView.findViewById(R.id.logData);
         populateLogData(position,etName,etData);
+
+        View titleView = LayoutInflater.from(context).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Update Log");
+
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("Add New Log")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {

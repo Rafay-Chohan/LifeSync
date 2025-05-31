@@ -108,8 +108,12 @@ public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.
             }
         });
 
+        View titleView = LayoutInflater.from(context).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Update Expense");
+
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("Update Expense")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {

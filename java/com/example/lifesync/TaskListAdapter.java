@@ -132,8 +132,13 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.ViewHo
 
         etDeadline.setOnClickListener(v -> showDateTimePicker(etDeadline));
         populateTaskData(position,etName,etDeadline,etPriority,etDuration);
+
+        View titleView = LayoutInflater.from(context).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Update Task");
+
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("Update Task")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {

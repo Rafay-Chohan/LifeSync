@@ -275,8 +275,13 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                 // Do something when nothing is selected, if needed
             }
         });
+
+        View titleView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Add New Expense");
+
         AlertDialog dialog = new AlertDialog.Builder(requireContext())
-                .setTitle("Add New Expense")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {
