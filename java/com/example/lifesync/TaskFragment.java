@@ -172,7 +172,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                     // Convert dp to pixels for consistent sizing
                     float margin = TypedValue.applyDimension(
                             TypedValue.COMPLEX_UNIT_DIP,
-                            8f,
+                            6f,
                             getResources().getDisplayMetrics()
                     );
                     int iconSize = (int) TypedValue.applyDimension(
@@ -196,9 +196,9 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                         paint.setColor(Color.parseColor("#4CAF50"));
                         RectF rect = new RectF(
                                 itemView.getLeft() + margin,
-                                itemView.getTop() ,
+                                itemView.getTop() + margin,
                                 itemView.getLeft() + dX - margin,
-                                itemView.getBottom()
+                                itemView.getBottom() - margin
                         );
                         path.addRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW);
                         c.drawPath(path, paint);
@@ -221,9 +221,9 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                         paint.setColor(Color.parseColor("#F44336"));
                         RectF rect = new RectF(
                                 itemView.getRight() + dX + margin,
-                                itemView.getTop() ,
+                                itemView.getTop() + margin,
                                 itemView.getRight() - margin,
-                                itemView.getBottom()
+                                itemView.getBottom() - margin
                         );
                         path.addRoundRect(rect, CORNER_RADIUS, CORNER_RADIUS, Path.Direction.CW);
                         c.drawPath(path, paint);
