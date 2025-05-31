@@ -19,6 +19,9 @@
         <item name="android:statusBarColor">@color/DarkBackground</item>
     </style>
 
+
+    <color name="iconTint">#EFE6FF</color>
+
     <style name="roundAddBtn">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
