@@ -3,12 +3,15 @@ package com.example.lifesync;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.View;
 import android.os.Bundle;
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     ViewPagerAdapter adapter;
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "user_prefs";
+    private static final String KEY_DARK_MODE = "dark_mode";
     int currentTab = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,53 +44,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        replaceFragment(new TaskManagerFragment());
-
-//        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-//            switch (item.getItemId()){
-//                case R.id.tmItem:
-//                    replaceFragment(new TaskManagerFragment());
-//                    refresh=0;
-//                    break;
-//                case R.id.btItem:
-//                    replaceFragment(new BudgetTrackerFragment());
-//                    refresh=1;
-//                    break;
-//                case R.id.jItem:
-//                    replaceFragment(new JournalFragment());
-//                    refresh=2;
-//                    break;
-//                case R.id.signOut:
-//                    new AlertDialog.Builder(MainActivity.this)
-//                            .setTitle("Sign Out")
-//                            .setMessage("Are you sure you want to Sign Out?")
-//                            .setPositiveButton("Yes", (d, which) -> {
-//                                FirebaseAuth.getInstance().signOut();
-//                                GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(MainActivity.this,
-//                                        new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build());
-//                                googleSignInClient.signOut().addOnCompleteListener(MainActivity.this, new OnCompleteListener<Void>() {
-//                                    @Override
-//                                    public void onComplete(@NonNull Task<Void> task) {
-//                                        // Redirect to login activity
-//                                        startActivity(new Intent(MainActivity.this,SignIn.class));
-//                                    }
-//                                });
-//
-//                            })
-//                            .setNegativeButton("Cancel", null)
-//                            .show();
-//
-//                    //startActivity(new Intent(MainActivity.this,SignIn.class));
-//                    break;
-//            }
-//
-//            return true;
-//        });
-
-        tabLayout = findViewById(R.id.tabLayout);
-        viewPager2 = findViewById(R.id.viewpager2);
-        adapter = new ViewPagerAdapter(this);
-        viewPager2.setAdapter(adapter);
+        init();
 
         new TabLayoutMediator(
                 tabLayout,
@@ -132,22 +92,6 @@ public class MainActivity extends AppCompatActivity {
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
 
-//        FloatingActionButton fabRefresh = findViewById(R.id.refresh);
-//        fabRefresh.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                switch (currentTab){
-//                    case 0:
-//                        replaceFragment(new TaskManagerFragment());
-//                        break;
-//                    case 1:
-//                        replaceFragment(new BudgetTrackerFragment());
-//                        break;
-//                    case 2:
-//                        replaceFragment(new JournalFragment());
-//                        break;
-//                }
-//            }
         String fragmentTag = "f" + viewPager2.getCurrentItem();
         findViewById(R.id.refresh).setOnClickListener(v -> {
             Fragment fragment = getSupportFragmentManager()
@@ -158,12 +102,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-//    private void replaceFragment(Fragment fragment){
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.viewpager2,fragment);
-//        fragmentTransaction.commit();
-//    }
+    private void init(){
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager2 = findViewById(R.id.viewpager2);
+        adapter = new ViewPagerAdapter(this);
+        viewPager2.setAdapter(adapter);
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+
+        boolean isDarkMode = sharedPreferences.getBoolean(KEY_DARK_MODE, false);
+        AppCompatDelegate.setDefaultNightMode(isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+    }
     @Override
     protected void onStart() {
         super.onStart();
