@@ -37,8 +37,8 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             style="@style/TextColor"
-                            android:gravity="left"
-                            android:text="@string/income">
+                            android:gravity="start"
+                            android:text="INCOME: \nRs ...">
                         </TextView>
                         <TextView
                             android:id="@+id/Spent"
@@ -47,7 +47,7 @@
                             android:layout_height="wrap_content"
                             style="@style/TextColor"
                             android:gravity="center"
-                            android:text="@string/spent"
+                            android:text="SPENT: \nRs ..."
                             >
                         </TextView>
                         <TextView
@@ -55,9 +55,9 @@
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:text="@string/savings"
+                            android:text="SAVINGS: \nRs ..."
                             style="@style/TextColor"
-                            android:gravity="right"
+                            android:gravity="end"
                             >
                         </TextView>
                 </LinearLayout>

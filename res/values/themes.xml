@@ -22,6 +22,8 @@
 
     <style name="Theme.LifeSync" parent="Base.Theme.LifeSync" />
 
+    <color name="iconTint">#000000</color>"
+
     <style name="ScreenBackground">
         <item name="android:background">@color/LightBackground</item>
     </style><!--Works-->

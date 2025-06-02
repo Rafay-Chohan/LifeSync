@@ -77,8 +77,13 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
         EditText etName=dialogView.findViewById(R.id.logName);
         EditText etData=dialogView.findViewById(R.id.logData);
         populateLogData(position,etName,etData);
+
+        View titleView = LayoutInflater.from(context).inflate(R.layout.dialog_add_task_title, null);
+        TextView titleTextView = titleView.findViewById(R.id.dialog_title_text);
+        titleTextView.setText("Update Log");
+
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle("Add New Log")
+                .setCustomTitle(titleView)
                 .setView(dialogView)
                 .setNegativeButton("Cancel", null)
                 .setPositiveButton("Save", (d, which) -> {
@@ -118,21 +123,26 @@ public class LogListAdapter extends RecyclerView.Adapter<LogListAdapter.ViewHold
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference LogRef = db.collection("Logs").document(logDataSet.get(position).getLogID());
 
-        Map<String, Object> updates = new HashMap<>();
-        updates.put("name", newTitle);
-        updates.put("data", newData);
-        LogRef.update(updates)
-                .addOnSuccessListener(aVoid -> {
-                    // Update successful
-                    Toast.makeText(context, "Log updated successfully!", Toast.LENGTH_SHORT).show();
-                    logDataSet.get(position).setName(newTitle);
-                    logDataSet.get(position).setData(newData);
-                    notifyItemChanged(position);
-                })
-                .addOnFailureListener(exception -> {
-                    // Update failed
-                    Toast.makeText(context, "Failed to update Log!", Toast.LENGTH_SHORT).show();
-                });
+        if(!newTitle.equals("")) {
+            Map<String, Object> updates = new HashMap<>();
+            updates.put("name", newTitle);
+            updates.put("data", newData);
+            LogRef.update(updates)
+                    .addOnSuccessListener(aVoid -> {
+                        // Update successful
+                        Toast.makeText(context, "Log updated successfully!", Toast.LENGTH_SHORT).show();
+                        logDataSet.get(position).setName(newTitle);
+                        logDataSet.get(position).setData(newData);
+                        notifyItemChanged(position);
+                    })
+                    .addOnFailureListener(exception -> {
+                        // Update failed
+                        Toast.makeText(context, "Failed to update Log!", Toast.LENGTH_SHORT).show();
+                    });
+        }
+        else {
+            Toast.makeText((context), "Log name can't be empty", Toast.LENGTH_SHORT).show();
+        }
 
     }
     // Return the size of your dataset (invoked by the layout manager)

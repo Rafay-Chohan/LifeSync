@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_margin="5dp"
     android:background="@drawable/item"
     android:id="@+id/itemContainer">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="15dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="20dp"
         style="@style/viewBackground">
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,7 +32,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="3dp">
 
                 <TextView
                     android:id="@+id/taskStatus"

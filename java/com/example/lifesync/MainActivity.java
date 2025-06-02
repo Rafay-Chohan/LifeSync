@@ -103,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
                             case 2:
                                 tab.setIcon(R.drawable.icon_journal);
                                 break;
+                            case 3:
+                                tab.setIcon(R.drawable.icon_profile_tab);
+                                break;
                         }
                     }
                 }
