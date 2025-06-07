@@ -34,6 +34,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -136,7 +137,41 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                     // Toggle task status
                     com.example.lifesync.TaskModel task = taskList.get(position);
                     String oldStatus = task.getTaskStatus();
-                    String newStatus = oldStatus.equalsIgnoreCase("Completed") ? "Pending" : "Completed";
+                    String newStatus;
+
+                    if (oldStatus.equalsIgnoreCase("Completed")) {
+                        // when toggling from Completed, checking deadline for new status
+                        String date = task.getTaskDeadline();
+                        Date currentTime = new Date();
+                        boolean isMissed = false;
+
+                        if (!date.equals(" ")) {
+                            try {
+                                String[] parts = date.split(" ");
+                                Date deadline;
+
+                                // Parse with time if available (format: yyyy-MM-dd HH:mm:ss)
+                                if (parts.length >= 2 && !parts[1].isEmpty()) {
+                                    deadline = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
+                                }
+                                // Fallback to date-only (set time to 23:59:59 for end-of-day comparison)
+                                else {
+                                    String endOfDay = parts[0] + " 23:59:59";
+                                    deadline = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endOfDay);
+                                }
+
+                                if (currentTime.after(deadline)) {
+                                    isMissed = true;
+                                }
+                            } catch (Exception e) {
+                                isMissed = false;
+                            }
+                        }
+                        newStatus = isMissed ? "Missed" : "Pending";
+                    } else {
+                        newStatus = "Completed";
+                    }
+
                     task.setTaskStatus(newStatus);
 
                     db.collection("Tasks").document(task.getTaskId())
@@ -147,11 +182,10 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
 
                                 if (oldStatus.equalsIgnoreCase("Completed") && newStatus.equalsIgnoreCase("Pending")) {
                                     pendingTaskCount++;
-                                } else if ((oldStatus.equalsIgnoreCase("Pending") || oldStatus.equalsIgnoreCase("Missed")) && newStatus.equalsIgnoreCase("Completed")) {
-                                    if(pendingTaskCount!=0)
+                                } else if (oldStatus.equalsIgnoreCase("Pending")) {
+                                    if (pendingTaskCount != 0)
                                         pendingTaskCount--;
                                 }
-
                                 tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);
                             });
                 }
