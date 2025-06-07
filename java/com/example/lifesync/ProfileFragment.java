@@ -21,6 +21,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -103,15 +104,15 @@ public class ProfileFragment extends Fragment {
             profileEmail.setText(email != null ? email : "No email available");
 
             // need to add dependency for glide
-//            if (account.getPhotoUrl() != null) {
-//                Glide.with(this)
-//                        .load(account.getPhotoUrl())
-//                        .circleCrop()
-//                        .placeholder(R.drawable.icon_profile_tab)
-//                        .into(profileImage);
-//            } else {
-//                profileImage.setImageResource(R.drawable.icon_profile_tab);
-//            }
+            if (account.getPhotoUrl() != null) {
+                Glide.with(this)
+                        .load(account.getPhotoUrl())
+                        .circleCrop()
+                        .placeholder(R.drawable.icon_profile_tab)
+                        .into(profileImage);
+            } else {
+                profileImage.setImageResource(R.drawable.icon_profile_tab);
+            }
         } else {
             // User not signed in with Google
             profileName.setText("Guest User");
