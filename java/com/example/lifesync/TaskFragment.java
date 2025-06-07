@@ -120,9 +120,15 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                             .setMessage("Are you sure you want to delete this task?")
                             .setPositiveButton("Delete", (dialog, which) -> {
                                 String taskId = taskList.get(position).getTaskId();
+                                String status = taskList.get(position).getTaskStatus();
                                 db.collection("Tasks").document(taskId)
                                         .delete()
                                         .addOnSuccessListener(unused -> {
+                                            if (status.equalsIgnoreCase("Pending"))
+                                            {
+                                                pendingTaskCount--;
+                                                SetPendingTaskCount();
+                                            }
                                             taskList.remove(position);
                                             taskListAdapter.notifyItemRemoved(position);
                                             Toast.makeText(context, "Task deleted", Toast.LENGTH_SHORT).show();
@@ -186,7 +192,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                                     if (pendingTaskCount != 0)
                                         pendingTaskCount--;
                                 }
-                                tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);
+                                SetPendingTaskCount();
                             });
                 }
 
@@ -320,7 +326,7 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
                             }
                             taskListAdapter.notifyDataSetChanged();
 
-                            tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);
+                            SetPendingTaskCount();
 
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -430,5 +436,8 @@ public class TaskFragment extends Fragment implements RefreshableFragment {
         );
         datePicker.getDatePicker().setMinDate(calendar.getTimeInMillis());
         datePicker.show();
+    }
+    private void SetPendingTaskCount() {
+        tvPendingTasks.setText("Pending Tasks: " + pendingTaskCount);
     }
 }
