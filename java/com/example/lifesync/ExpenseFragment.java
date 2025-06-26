@@ -105,6 +105,11 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
         startDate.set(Calendar.SECOND, 0);
         startDate.set(Calendar.MILLISECOND, 0);
 
+        endDate.set(Calendar.HOUR_OF_DAY, 23);
+        endDate.set(Calendar.MINUTE, 59);
+        endDate.set(Calendar.SECOND, 59);
+        endDate.set(Calendar.MILLISECOND, 0);
+
         pieChart = view.findViewById(R.id.pieChart);
         colors.add(Color.parseColor("#FFA726")); // Orange
         colors.add(Color.parseColor("#66BB6A")); // Green
@@ -217,9 +222,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                                     .addOnSuccessListener(unused -> {
                                         expenseList.remove(position);
                                         expenseListAdapter.notifyItemRemoved(position);
-                                        spent -= expense.getAmount(); // Update spent amount
-                                        saving = income - spent; // Recalculate savings
-                                        updateStatsUI();
+                                        calculateSpent();
                                         Toast.makeText(context, "Expense deleted", Toast.LENGTH_SHORT).show();
                                     });
                         })
@@ -516,7 +519,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
             entries.add(new PieEntry(entry.getValue(), entry.getKey()));
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Expenses by Category");
+        PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(colors);
         dataSet.setValueTextSize(12f);
         dataSet.setValueTextColor(Color.WHITE);
@@ -525,7 +528,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
         pieChart.setData(pieData);
         pieChart.setUsePercentValues(true);
         pieChart.setDrawHoleEnabled(true);
-        pieChart.setHoleRadius(50f);
+        pieChart.setHoleRadius(40f);
         pieChart.setTransparentCircleAlpha(0);
         pieChart.setDrawEntryLabels(false);
         pieChart.getDescription().setEnabled(false);
