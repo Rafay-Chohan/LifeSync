@@ -61,15 +61,39 @@
                             >
                         </TextView>
                 </LinearLayout>
-                <TextView
-                    android:id="@+id/exp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                        <TextView
+                            android:id="@+id/exp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/expenses"
+                            android:textColor="@color/black"
+                            android:textSize="26dp"
+                            android:layout_centerHorizontal="true"
+                            />
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/btnToggleChart"
+                            android:src="@drawable/graphoff"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            style="@style/Button"
+                            app:shapeAppearanceOverlay="@style/roundAddBtn"
+                            />
+                </RelativeLayout>
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"
+                    android:layout_marginTop="10dp"
                     android:layout_gravity="center"
-                    android:text="@string/expenses"
-                    android:textColor="@color/black"
-                    android:textSize="26dp"
-                    />
+                    android:visibility="gone"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/expenseListRV"
                     android:layout_width="match_parent"
@@ -86,7 +110,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/btn_add"
         style="@style/Button"
         android:layout_margin="16dp"
         />

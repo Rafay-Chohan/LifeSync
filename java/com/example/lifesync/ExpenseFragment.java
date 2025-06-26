@@ -55,6 +55,13 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 public class ExpenseFragment extends Fragment implements RefreshableFragment{
     MainActivity mainActivity;
     RecyclerView ExpenseRV;
@@ -69,6 +76,10 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
     TextView svg;
     TextView inc;
     Context context;
+    PieChart pieChart;
+
+    FloatingActionButton fabToggle;
+    ArrayList<Integer> colors = new ArrayList<>();
     ArrayList<ExpenseModel> expenseList = new ArrayList<>();
     public ExpenseFragment() {
         // Required empty public constructor
@@ -82,6 +93,30 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_expense, container, false);
         mainActivity = (MainActivity)getActivity();
+
+        pieChart = view.findViewById(R.id.pieChart);
+        colors.add(Color.parseColor("#FFA726")); // Orange
+        colors.add(Color.parseColor("#66BB6A")); // Green
+        colors.add(Color.parseColor("#29B6F6")); // Blue
+        colors.add(Color.parseColor("#EF5350")); // Red
+        colors.add(Color.parseColor("#AB47BC")); // Purple
+        colors.add(Color.parseColor("#26A69A")); // Teal
+        colors.add(Color.parseColor("#5C6BC0")); // Indigo
+        colors.add(Color.parseColor("#EC407A")); // Pink
+        colors.add(Color.parseColor("#8D6E63")); // Brown
+        pieChart.invalidate(); // refresh
+
+        fabToggle=view.findViewById(R.id.btnToggleChart);
+        fabToggle.setOnClickListener(v->{
+            if(pieChart.getVisibility()==View.GONE) {
+                pieChart.setVisibility(View.VISIBLE);
+                fabToggle.setImageResource(R.drawable.graphon);
+            }
+            else{
+                pieChart.setVisibility(View.GONE);
+                fabToggle.setImageResource(R.drawable.graphoff);
+            }
+        });
         spt = view.findViewById(R.id.Spent);
         svg = view.findViewById(R.id.Savings);
         inc = view.findViewById(R.id.Income);
@@ -398,7 +433,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
         saving = 0;
         expenseList.clear();
         expenseListAdapter.notifyDataSetChanged();
-
+        Map<String, Integer> categoryTotalMap = new HashMap<>();
         db.collection("Expenses")
                 .whereEqualTo("userId", FirebaseAuth.getInstance().getUid())
                 .orderBy("date", Query.Direction.DESCENDING)
@@ -418,6 +453,13 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                                 inputCal.setTime(date);
                                 if((inputCal.get(Calendar.YEAR) == currentCal.get(Calendar.YEAR) )&& (inputCal.get(Calendar.MONTH) == currentCal.get(Calendar.MONTH)))
                                     spent+=expenseModel.getAmount();
+                                String category = expenseModel.getCategory();
+                                int amount = expenseModel.getAmount();
+                                if (categoryTotalMap.containsKey(category)) {
+                                    categoryTotalMap.put(category, categoryTotalMap.get(category) + amount);
+                                } else {
+                                    categoryTotalMap.put(category, amount);
+                                }
                             }catch (ParseException e) {
                                 e.printStackTrace();
                             }
@@ -425,6 +467,7 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                         }
                         expenseListAdapter.notifyDataSetChanged();
                         updateStatsUI(); // update after fetching expenses
+                        updatePieChart(categoryTotalMap);
                     } else {
                         Log.d(TAG, "Error getting expenses: ", task.getException());
                     }
@@ -455,4 +498,36 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
         if (svg != null) svg.setText("SAVING:\nRs." + saving);
         if (inc != null) inc.setText("INCOME:\nRs." + income);
     }
+    private void updatePieChart(Map<String, Integer> categoryMap) {
+        ArrayList<PieEntry> entries = new ArrayList<>();
+
+        for (Map.Entry<String, Integer> entry : categoryMap.entrySet()) {
+            entries.add(new PieEntry(entry.getValue(), entry.getKey()));
+        }
+
+        PieDataSet dataSet = new PieDataSet(entries, "Expenses by Category");
+        dataSet.setColors(colors);
+        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextColor(Color.WHITE);
+
+        PieData pieData = new PieData(dataSet);
+        pieChart.setData(pieData);
+        pieChart.setUsePercentValues(true);
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleRadius(50f);
+        pieChart.setTransparentCircleAlpha(0);
+        pieChart.setDrawEntryLabels(false);
+        pieChart.getDescription().setEnabled(false);
+
+
+        Legend legend = pieChart.getLegend();
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setWordWrapEnabled(true);
+        legend.setTextSize(14f);
+
+        pieChart.invalidate(); // refresh
+    }
+
 }
