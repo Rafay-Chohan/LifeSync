@@ -1,6 +1,7 @@
 package com.example.lifesync;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -78,9 +79,13 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
     Context context;
     PieChart pieChart;
 
-    FloatingActionButton fabToggle;
+    FloatingActionButton fabToggle,fabCalender;
     ArrayList<Integer> colors = new ArrayList<>();
     ArrayList<ExpenseModel> expenseList = new ArrayList<>();
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+    Calendar startDate = Calendar.getInstance();
+    Calendar endDate = Calendar.getInstance();
     public ExpenseFragment() {
         // Required empty public constructor
     }
@@ -93,6 +98,12 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_expense, container, false);
         mainActivity = (MainActivity)getActivity();
+
+        startDate.set(Calendar.DAY_OF_MONTH, 1);//Set starting date to 1st of the month by default
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
+        startDate.set(Calendar.MINUTE, 0);
+        startDate.set(Calendar.SECOND, 0);
+        startDate.set(Calendar.MILLISECOND, 0);
 
         pieChart = view.findViewById(R.id.pieChart);
         colors.add(Color.parseColor("#FFA726")); // Orange
@@ -117,6 +128,10 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                 fabToggle.setImageResource(R.drawable.graphoff);
             }
         });
+
+        fabCalender=view.findViewById(R.id.fabCalender);
+        fabCalender.setOnClickListener(v->showStartDatePicker());
+
         spt = view.findViewById(R.id.Spent);
         svg = view.findViewById(R.id.Savings);
         inc = view.findViewById(R.id.Income);
@@ -444,21 +459,17 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
                             ExpenseModel expenseModel = document.toObject(ExpenseModel.class);
                             expenseModel.setExpId(document.getId());
                             try {
-                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                                 Date date = sdf.parse(expenseModel.getDate());
 
-                                // Get current month/year
-                                Calendar currentCal = Calendar.getInstance();
-                                Calendar inputCal = Calendar.getInstance();
-                                inputCal.setTime(date);
-                                if((inputCal.get(Calendar.YEAR) == currentCal.get(Calendar.YEAR) )&& (inputCal.get(Calendar.MONTH) == currentCal.get(Calendar.MONTH)))
-                                    spent+=expenseModel.getAmount();
-                                String category = expenseModel.getCategory();
-                                int amount = expenseModel.getAmount();
-                                if (categoryTotalMap.containsKey(category)) {
-                                    categoryTotalMap.put(category, categoryTotalMap.get(category) + amount);
-                                } else {
-                                    categoryTotalMap.put(category, amount);
+                                if(!date.before(startDate.getTime()) && !date.after(endDate.getTime())) {
+                                    spent += expenseModel.getAmount();
+                                    String category = expenseModel.getCategory();
+                                    int amount = expenseModel.getAmount();
+                                    if (categoryTotalMap.containsKey(category)) {
+                                        categoryTotalMap.put(category, categoryTotalMap.get(category) + amount);
+                                    } else {
+                                        categoryTotalMap.put(category, amount);
+                                    }
                                 }
                             }catch (ParseException e) {
                                 e.printStackTrace();
@@ -528,6 +539,56 @@ public class ExpenseFragment extends Fragment implements RefreshableFragment{
         legend.setTextSize(14f);
 
         pieChart.invalidate(); // refresh
+    }
+
+    private void showStartDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog startDatePicker = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
+            startDate.set(year, month, dayOfMonth);
+            showEndDatePicker(); // immediately show end date picker
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        startDatePicker.setTitle("Select Start Date");
+        startDatePicker.show();
+    }
+
+    private void showEndDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog endDatePicker = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
+            endDate.set(year, month, dayOfMonth);
+            calculateSpent();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        endDatePicker.setTitle("Select End Date");
+        endDatePicker.show();
+    }
+
+    private void calculateSpent(){
+        int newSpent = 0;
+        Map<String, Integer> categoryTotalMap = new HashMap<>();
+        for (ExpenseModel expense : expenseList) {
+            try {
+                Date expenseDate = sdf.parse(expense.getDate());
+
+                if (expenseDate != null && !expenseDate.before(startDate.getTime()) && !expenseDate.after(endDate.getTime())) {
+                    newSpent += expense.getAmount();
+                    String category = expense.getCategory();
+                    int amount = expense.getAmount();
+                    if (categoryTotalMap.containsKey(category)) {
+                        categoryTotalMap.put(category, categoryTotalMap.get(category) + amount);
+                    } else {
+                        categoryTotalMap.put(category, amount);
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        spent = newSpent;
+        saving = income - spent;
+        updateStatsUI();
+        updatePieChart(categoryTotalMap);
     }
 
 }

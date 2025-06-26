@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ExpenseFragment">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv"
                     android:layout_width="wrap_content"
@@ -20,13 +22,31 @@
                     android:layout_marginBottom="15dp"
                     android:textSize="26dp"
                     />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fabCalender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/btneditcalender"
+                            app:shapeAppearanceOverlay="@style/roundAddBtn"
+                            style="@style/Button"
+                            app:fabCustomSize="28dp"
+                            android:layout_marginBottom="2dp"/>
+
                 <LinearLayout
                     android:id="@+id/expenseData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:background="@drawable/item"
-                    android:layout_margin="10dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     style="@style/viewBackground"
                     android:gravity="center"
                     android:padding="10dp"
@@ -61,6 +81,7 @@
                             >
                         </TextView>
                 </LinearLayout>
+                </RelativeLayout>
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
